@@ -21,8 +21,13 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .card .japanese.show { display: block; }
 .card .kanji { font-size: 1.6rem; color: #fff; }
 .card .reading { font-size: 1rem; color: #7ec8e3; margin-top: 2px; }
+.card .star-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
+.card .star-btn.starred { color: #f5c518; }
+.card { position: relative; }
 .card-counter { color: #666; font-size: 0.85rem; margin-bottom: 10px; }
-.shuffle-btn { background: #16213e; border: 1px solid #334; border-radius: 6px; color: #7ec8e3; padding: 8px 14px; font-size: 0.9rem; cursor: pointer; margin-bottom: 12px; }
+.toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.shuffle-btn, .filter-btn { background: #16213e; border: 1px solid #334; border-radius: 6px; color: #7ec8e3; padding: 8px 14px; font-size: 0.9rem; cursor: pointer; }
+.filter-btn.active { background: #0f3460; border-color: #7ec8e3; }
 
 /* Listening */
 .listen-card { background: #16213e; border: 1px solid #334; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
@@ -41,6 +46,23 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .next-btn { display: block; width: 100%; padding: 14px; margin-top: 12px; background: #0f3460; border: 1px solid #446; border-radius: 8px; color: #eee; font-size: 1rem; cursor: pointer; }
 .next-btn:active { background: #1a4a7a; }
 .listen-counter { color: #666; font-size: 0.85rem; margin-bottom: 10px; text-align: center; }
+
+/* Flashcards */
+.fc-container { display: flex; flex-direction: column; align-items: center; }
+.fc-toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; width: 100%; }
+.fc-counter { color: #666; font-size: 0.85rem; margin-bottom: 12px; }
+.flashcard { width: 100%; min-height: 220px; background: #16213e; border: 1px solid #334; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; }
+.flashcard .fc-english { font-size: 1.2rem; color: #ccc; text-align: center; }
+.flashcard .fc-japanese { display: none; text-align: center; margin-top: 14px; }
+.flashcard .fc-japanese.show { display: block; }
+.flashcard .fc-kanji { font-size: 2rem; color: #fff; }
+.flashcard .fc-reading { font-size: 1.1rem; color: #7ec8e3; margin-top: 4px; }
+.flashcard .fc-star { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
+.flashcard .fc-star.starred { color: #f5c518; }
+.fc-hint { color: #556; font-size: 0.85rem; margin-top: 10px; }
+.fc-nav { display: flex; gap: 10px; width: 100%; margin-top: 14px; }
+.fc-nav button { flex: 1; padding: 14px; background: #0f3460; border: 1px solid #446; border-radius: 8px; color: #eee; font-size: 1rem; cursor: pointer; }
+.fc-nav button:active { background: #1a4a7a; }
 </style>
 </head>
 <body>
@@ -49,6 +71,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <div id="home" class="screen active">
   <h1>N4 Study</h1>
   <button class="menu-btn" onclick="showScreen('verbs')">English → Japanese Verbs</button>
+  <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
 </div>
 
@@ -56,9 +79,38 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <div id="verbs" class="screen">
   <button class="back-btn" onclick="showScreen('home')">← Back</button>
   <h1>English → Japanese</h1>
-  <button class="shuffle-btn" onclick="shuffleVerbs()">Shuffle</button>
+  <div class="toolbar">
+    <button class="shuffle-btn" onclick="shuffleVerbs()">Shuffle</button>
+    <button class="filter-btn" id="filter-btn" onclick="toggleFilter()">Show All</button>
+  </div>
   <div class="card-counter" id="verb-counter"></div>
   <div id="verb-list"></div>
+</div>
+
+<!-- FLASHCARDS -->
+<div id="flashcards" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Flashcard Mode</h1>
+  <div class="fc-container">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleFC()">Shuffle</button>
+      <button class="filter-btn" id="fc-filter-btn" onclick="toggleFCFilter()">Show All</button>
+    </div>
+    <div class="fc-counter" id="fc-counter"></div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <button class="fc-star" id="fc-star" onclick="toggleFCStar(event)">☆</button>
+      <div class="fc-english" id="fc-english"></div>
+      <div class="fc-japanese" id="fc-japanese">
+        <div class="fc-kanji" id="fc-kanji"></div>
+        <div class="fc-reading" id="fc-reading"></div>
+      </div>
+      <div class="fc-hint" id="fc-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="prevCard()">← Prev</button>
+      <button onclick="nextCard()">Next →</button>
+    </div>
+  </div>
 </div>
 
 <!-- LISTENING -->
@@ -242,11 +294,36 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (id === 'verbs') renderVerbs();
+  if (id === 'flashcards') initFlashcards();
   if (id === 'listening') initListening();
 }
 
 // ── VERBS ──
 let shuffledVerbs = [...verbs];
+let showOnlyStarred = false;
+
+function getStarred() {
+  try { return JSON.parse(localStorage.getItem('n4_starred') || '{}'); } catch { return {}; }
+}
+function setStarred(obj) { localStorage.setItem('n4_starred', JSON.stringify(obj)); }
+function verbKey(v) { return v[0] + '|' + v[1]; }
+
+function toggleStar(idx, e) {
+  e.stopPropagation();
+  const v = shuffledVerbs[idx];
+  const s = getStarred();
+  const k = verbKey(v);
+  if (s[k]) delete s[k]; else s[k] = 1;
+  setStarred(s);
+  renderVerbs();
+}
+
+function toggleFilter() {
+  showOnlyStarred = !showOnlyStarred;
+  document.getElementById('filter-btn').textContent = showOnlyStarred ? '★ Priority Only' : 'Show All';
+  document.getElementById('filter-btn').classList.toggle('active', showOnlyStarred);
+  renderVerbs();
+}
 
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -262,16 +339,22 @@ function shuffleVerbs() {
 
 function renderVerbs() {
   const list = document.getElementById('verb-list');
-  document.getElementById('verb-counter').textContent = shuffledVerbs.length + ' verbs';
-  list.innerHTML = shuffledVerbs.map((v, i) => `
+  const starred = getStarred();
+  const display = showOnlyStarred ? shuffledVerbs.filter(v => starred[verbKey(v)]) : shuffledVerbs;
+  document.getElementById('verb-counter').textContent = display.length + ' verbs';
+  list.innerHTML = display.map((v, i) => {
+    const origIdx = shuffledVerbs.indexOf(v);
+    const isStarred = starred[verbKey(v)];
+    return `
     <div class="card" onclick="this.querySelector('.japanese').classList.toggle('show')">
+      <button class="star-btn${isStarred ? ' starred' : ''}" onclick="toggleStar(${origIdx}, event)">${isStarred ? '★' : '☆'}</button>
       <div class="english">${v[2]}</div>
       <div class="japanese">
         <div class="kanji">${v[0]}</div>
         <div class="reading">${v[1]}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 // ── LISTENING ──
@@ -329,6 +412,94 @@ function revealSentence() {
 function nextSentence() {
   currentSentenceIdx = (currentSentenceIdx + 1) % shuffledSentences.length;
   loadSentence();
+}
+
+// ── FLASHCARDS ──
+let fcDeck = [];
+let fcIdx = 0;
+let fcStarredOnly = false;
+
+function initFlashcards() {
+  fcDeck = [...verbs];
+  shuffleArray(fcDeck);
+  applyFCFilter();
+}
+
+function applyFCFilter() {
+  if (fcStarredOnly) {
+    const starred = getStarred();
+    fcDeck = fcDeck.filter(v => starred[verbKey(v)]);
+  }
+  fcIdx = 0;
+  if (fcDeck.length > 0) loadCard();
+  else {
+    document.getElementById('fc-english').textContent = 'No starred verbs yet';
+    document.getElementById('fc-japanese').classList.remove('show');
+    document.getElementById('fc-hint').style.display = 'none';
+    document.getElementById('fc-counter').textContent = '0 / 0';
+  }
+}
+
+function loadCard() {
+  const v = fcDeck[fcIdx];
+  document.getElementById('fc-english').textContent = v[2];
+  document.getElementById('fc-kanji').textContent = v[0];
+  document.getElementById('fc-reading').textContent = v[1];
+  document.getElementById('fc-japanese').classList.remove('show');
+  document.getElementById('fc-hint').style.display = '';
+  document.getElementById('fc-hint').textContent = 'Tap to reveal';
+  document.getElementById('fc-counter').textContent = (fcIdx + 1) + ' / ' + fcDeck.length;
+  const starred = getStarred();
+  const starBtn = document.getElementById('fc-star');
+  const isStarred = starred[verbKey(v)];
+  starBtn.textContent = isStarred ? '★' : '☆';
+  starBtn.classList.toggle('starred', !!isStarred);
+}
+
+function flipCard() {
+  if (fcDeck.length === 0) return;
+  document.getElementById('fc-japanese').classList.add('show');
+  document.getElementById('fc-hint').style.display = 'none';
+}
+
+function nextCard() {
+  if (fcDeck.length === 0) return;
+  fcIdx = (fcIdx + 1) % fcDeck.length;
+  loadCard();
+}
+
+function prevCard() {
+  if (fcDeck.length === 0) return;
+  fcIdx = (fcIdx - 1 + fcDeck.length) % fcDeck.length;
+  loadCard();
+}
+
+function shuffleFC() {
+  shuffleArray(fcDeck);
+  fcIdx = 0;
+  if (fcDeck.length > 0) loadCard();
+}
+
+function toggleFCStar(e) {
+  e.stopPropagation();
+  if (fcDeck.length === 0) return;
+  const v = fcDeck[fcIdx];
+  const s = getStarred();
+  const k = verbKey(v);
+  if (s[k]) delete s[k]; else s[k] = 1;
+  setStarred(s);
+  const starBtn = document.getElementById('fc-star');
+  starBtn.textContent = s[k] ? '★' : '☆';
+  starBtn.classList.toggle('starred', !!s[k]);
+}
+
+function toggleFCFilter() {
+  fcStarredOnly = !fcStarredOnly;
+  document.getElementById('fc-filter-btn').textContent = fcStarredOnly ? '★ Priority Only' : 'Show All';
+  document.getElementById('fc-filter-btn').classList.toggle('active', fcStarredOnly);
+  fcDeck = [...verbs];
+  shuffleArray(fcDeck);
+  applyFCFilter();
 }
 
 // Pre-load voices (needed on some browsers)
