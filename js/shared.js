@@ -5,6 +5,7 @@ function showScreen(id) {
   if (id === 'verbs') renderVerbs();
   if (id === 'flashcards') initFlashcards();
   if (id === 'listening') initListening();
+  if (id === 'time') initTime();
 }
 
 // ── UTILITIES ──

@@ -65,6 +65,18 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .fc-nav { display: flex; gap: 10px; width: 100%; margin-top: 14px; }
 .fc-nav button { flex: 1; padding: 14px; background: #0f3460; border: 1px solid #446; border-radius: 8px; color: #eee; font-size: 1rem; cursor: pointer; }
 .fc-nav button:active { background: #1a4a7a; }
+
+/* Time Durations Mode */
+.time-tricky { display: inline-block; background: #3d1a00; color: #ff9966; border: 1px solid #a04020; border-radius: 4px; padding: 2px 8px; font-size: 0.8rem; margin-bottom: 14px; }
+.time-reveal-block { margin-bottom: 10px; }
+.time-reveal-btn { width: 100%; padding: 10px; background: #0f3460; border: 1px solid #446; border-radius: 6px; color: #7ec8e3; font-size: 0.9rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.time-reveal-btn:active { background: #1a4a7a; }
+.time-reveal-content { padding: 12px 12px 2px; background: #111a30; border-radius: 0 0 6px 6px; display: none; }
+.time-reveal-content.show { display: block; }
+.time-jp-text { font-size: 1.4rem; color: #fff; line-height: 1.5; margin-bottom: 10px; }
+.time-note { font-size: 0.85rem; color: #f5c518; margin-bottom: 10px; padding: 6px 8px; background: #2a2000; border-radius: 4px; display: none; }
+.time-note.show { display: block; }
+.time-en-text { font-size: 1rem; color: #aaa; margin-bottom: 10px; }
 </style>
 </head>
 <body>
@@ -75,6 +87,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('verbs')">Japanese → English Verbs</button>
   <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
+  <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
 </div>
 
 <!-- VERBS -->
@@ -118,6 +131,39 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   </div>
 </div>
 
+<!-- TIME DURATIONS -->
+<div id="time" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Time Expressions</h1>
+  <div class="listen-card">
+    <div class="listen-counter" id="time-counter"></div>
+    <div id="time-tricky" class="time-tricky" style="display:none;">⚠ tricky reading</div>
+    <button class="play-btn" onclick="playTimePhrase()">▶</button>
+    <div class="speed-controls" id="time-speed-controls">
+      <button onclick="setTimeSpeed(0.85, this)">Slow</button>
+      <button class="active" onclick="setTimeSpeed(1, this)">Normal</button>
+      <button onclick="setTimeSpeed(1.1, this)">Fast</button>
+    </div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" id="time-reveal-jp-btn" onclick="revealTimeJp()">Show Japanese</button>
+      <div class="time-reveal-content" id="time-jp-content">
+        <div class="time-jp-text" id="time-jp"></div>
+        <div class="time-note" id="time-note"></div>
+      </div>
+    </div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" id="time-reveal-en-btn" onclick="revealTimeEn()">Show English</button>
+      <div class="time-reveal-content" id="time-en-content">
+        <div class="time-en-text" id="time-en"></div>
+      </div>
+    </div>
+    <div class="fc-nav" style="margin-top:16px;">
+      <button onclick="prevTimePhrase()">← Prev</button>
+      <button onclick="nextTimePhrase()">Next →</button>
+    </div>
+  </div>
+</div>
+
 <!-- LISTENING -->
 <div id="listening" class="screen">
   <button class="back-btn" onclick="showScreen('home')">← Back</button>
@@ -141,9 +187,11 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 
 <script src="data/verbs.js"></script>
 <script src="data/sentences.js"></script>
+<script src="data/time.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/verbs.js"></script>
 <script src="js/flashcards.js"></script>
 <script src="js/listening.js"></script>
+<script src="js/time.js"></script>
 </body>
 </html>
