@@ -15,14 +15,15 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .menu-btn:active { background: #1a3a5c; }
 
 /* Verb cards */
-.card { background: #16213e; border: 1px solid #334; border-radius: 8px; padding: 20px; margin-bottom: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; }
-.card .english { font-size: 1.1rem; color: #ccc; }
-.card .japanese { margin-top: 10px; display: none; }
-.card .japanese.show { display: block; }
+.card { background: #16213e; border: 1px solid #334; border-radius: 8px; padding: 20px 72px 20px 20px; margin-bottom: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; }
 .card .kanji { font-size: 1.6rem; color: #fff; }
 .card .reading { font-size: 1rem; color: #7ec8e3; margin-top: 2px; }
+.card .english { font-size: 1.1rem; color: #ccc; margin-top: 10px; display: none; }
+.card .english.show { display: block; }
 .card .star-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
 .card .star-btn.starred { color: #f5c518; }
+.card .mastered-btn { position: absolute; top: 10px; right: 42px; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
+.card .mastered-btn.mastered { color: #4caf50; }
 .card-counter { color: #666; font-size: 0.85rem; margin-bottom: 10px; }
 .toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
 .shuffle-btn, .filter-btn { background: #16213e; border: 1px solid #334; border-radius: 6px; color: #7ec8e3; padding: 8px 14px; font-size: 0.9rem; cursor: pointer; }
@@ -58,6 +59,8 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .flashcard .fc-reading { font-size: 1.1rem; color: #7ec8e3; margin-top: 4px; }
 .flashcard .fc-star { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
 .flashcard .fc-star.starred { color: #f5c518; }
+.flashcard .fc-mastered { position: absolute; top: 12px; right: 50px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
+.flashcard .fc-mastered.mastered { color: #4caf50; }
 .fc-hint { color: #556; font-size: 0.85rem; margin-top: 10px; }
 .fc-nav { display: flex; gap: 10px; width: 100%; margin-top: 14px; }
 .fc-nav button { flex: 1; padding: 14px; background: #0f3460; border: 1px solid #446; border-radius: 8px; color: #eee; font-size: 1rem; cursor: pointer; }
@@ -69,7 +72,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <!-- HOME -->
 <div id="home" class="screen active">
   <h1>N4 Study</h1>
-  <button class="menu-btn" onclick="showScreen('verbs')">English → Japanese Verbs</button>
+  <button class="menu-btn" onclick="showScreen('verbs')">Japanese → English Verbs</button>
   <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
 </div>
@@ -77,10 +80,11 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <!-- VERBS -->
 <div id="verbs" class="screen">
   <button class="back-btn" onclick="showScreen('home')">← Back</button>
-  <h1>English → Japanese</h1>
+  <h1>Japanese → English</h1>
   <div class="toolbar">
     <button class="shuffle-btn" onclick="shuffleVerbs()">Shuffle</button>
     <button class="filter-btn" id="filter-btn" onclick="toggleFilter()">Show All</button>
+    <button class="filter-btn" id="hide-mastered-btn" onclick="toggleHideMastered()">Hide Mastered</button>
   </div>
   <div class="card-counter" id="verb-counter"></div>
   <div id="verb-list"></div>
@@ -94,10 +98,12 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <div class="fc-toolbar">
       <button class="shuffle-btn" onclick="shuffleFC()">Shuffle</button>
       <button class="filter-btn" id="fc-filter-btn" onclick="toggleFCFilter()">Show All</button>
+      <button class="filter-btn" id="fc-hide-mastered-btn" onclick="toggleFCHideMastered()">Hide Mastered</button>
     </div>
     <div class="fc-counter" id="fc-counter"></div>
     <div class="flashcard" id="flashcard" onclick="flipCard()">
       <button class="fc-star" id="fc-star" onclick="toggleFCStar(event)">☆</button>
+      <button class="fc-mastered" id="fc-mastered" onclick="toggleFCMastered(event)">○</button>
       <div class="fc-english" id="fc-english"></div>
       <div class="fc-japanese" id="fc-japanese">
         <div class="fc-kanji" id="fc-kanji"></div>

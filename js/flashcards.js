@@ -2,6 +2,7 @@
 let fcDeck = [];
 let fcIdx = 0;
 let fcStarredOnly = false;
+let fcHideMastered = false;
 
 function initFlashcards() {
   fcDeck = [...verbs];
@@ -14,10 +15,14 @@ function applyFCFilter() {
     const starred = getStarred();
     fcDeck = fcDeck.filter(v => starred[verbKey(v)]);
   }
+  if (fcHideMastered) {
+    const mastered = getMastered();
+    fcDeck = fcDeck.filter(v => !mastered[verbKey(v)]);
+  }
   fcIdx = 0;
   if (fcDeck.length > 0) loadCard();
   else {
-    document.getElementById('fc-english').textContent = 'No starred verbs yet';
+    document.getElementById('fc-english').textContent = 'No cards match filters';
     document.getElementById('fc-japanese').classList.remove('show');
     document.getElementById('fc-hint').style.display = 'none';
     document.getElementById('fc-counter').textContent = '0 / 0';
@@ -38,6 +43,11 @@ function loadCard() {
   const isStarred = starred[verbKey(v)];
   starBtn.textContent = isStarred ? '★' : '☆';
   starBtn.classList.toggle('starred', !!isStarred);
+  const mastered = getMastered();
+  const masteredBtn = document.getElementById('fc-mastered');
+  const isMastered = mastered[verbKey(v)];
+  masteredBtn.textContent = isMastered ? '✓' : '○';
+  masteredBtn.classList.toggle('mastered', !!isMastered);
 }
 
 function flipCard() {
@@ -81,6 +91,28 @@ function toggleFCFilter() {
   fcStarredOnly = !fcStarredOnly;
   document.getElementById('fc-filter-btn').textContent = fcStarredOnly ? '★ Priority Only' : 'Show All';
   document.getElementById('fc-filter-btn').classList.toggle('active', fcStarredOnly);
+  fcDeck = [...verbs];
+  shuffleArray(fcDeck);
+  applyFCFilter();
+}
+
+function toggleFCMastered(e) {
+  e.stopPropagation();
+  if (fcDeck.length === 0) return;
+  const v = fcDeck[fcIdx];
+  const m = getMastered();
+  const k = verbKey(v);
+  if (m[k]) delete m[k]; else m[k] = 1;
+  setMastered(m);
+  const masteredBtn = document.getElementById('fc-mastered');
+  masteredBtn.textContent = m[k] ? '✓' : '○';
+  masteredBtn.classList.toggle('mastered', !!m[k]);
+}
+
+function toggleFCHideMastered() {
+  fcHideMastered = !fcHideMastered;
+  document.getElementById('fc-hide-mastered-btn').textContent = fcHideMastered ? '✓ Hide Mastered' : 'Hide Mastered';
+  document.getElementById('fc-hide-mastered-btn').classList.toggle('active', fcHideMastered);
   fcDeck = [...verbs];
   shuffleArray(fcDeck);
   applyFCFilter();

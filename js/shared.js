@@ -21,3 +21,9 @@ function getStarred() {
 }
 function setStarred(obj) { localStorage.setItem('n4_starred', JSON.stringify(obj)); }
 function verbKey(v) { return v[0] + '|' + v[1]; }
+
+// ── MASTERED (localStorage) ──
+function getMastered() {
+  try { return JSON.parse(localStorage.getItem('n4_mastered') || '{}'); } catch { return {}; }
+}
+function setMastered(obj) { localStorage.setItem('n4_mastered', JSON.stringify(obj)); }
