@@ -86,6 +86,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <h1>N4 Study</h1>
   <button class="menu-btn" onclick="showScreen('verbs')">Japanese → English Verbs</button>
   <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
+  <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
 </div>
@@ -185,13 +186,42 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   </div>
 </div>
 
+<!-- ENGLISH → JAPANESE SENTENCES -->
+<div id="e2j" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>English → Japanese</h1>
+  <div class="fc-container">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleE2J()">Shuffle</button>
+      <button class="filter-btn" id="e2j-filter-btn" onclick="toggleE2JFilter()">Show All</button>
+      <button class="filter-btn" id="e2j-hide-mastered-btn" onclick="toggleE2JHideMastered()">Hide Mastered</button>
+    </div>
+    <div class="fc-counter" id="e2j-counter"></div>
+    <div class="flashcard" onclick="flipE2JCard()">
+      <button class="fc-star" id="e2j-star" onclick="toggleE2JStar(event)">☆</button>
+      <button class="fc-mastered" id="e2j-mastered" onclick="toggleE2JMastered(event)">○</button>
+      <div class="fc-english" id="e2j-english">English sentence</div>
+      <div class="fc-japanese" id="e2j-japanese">
+        <div class="fc-kanji" id="e2j-japanese-text">日本語</div>
+      </div>
+      <div class="fc-hint" id="e2j-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="prevE2JCard()">← Prev</button>
+      <button onclick="nextE2JCard()">Next →</button>
+    </div>
+  </div>
+</div>
+
 <script src="data/verbs.js"></script>
 <script src="data/sentences.js"></script>
 <script src="data/time.js"></script>
+<script src="data/e2jSentences.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/verbs.js"></script>
 <script src="js/flashcards.js"></script>
 <script src="js/listening.js"></script>
 <script src="js/time.js"></script>
+<script src="js/e2jSentences.js"></script>
 </body>
 </html>

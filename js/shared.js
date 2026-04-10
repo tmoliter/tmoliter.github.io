@@ -6,6 +6,7 @@ function showScreen(id) {
   if (id === 'flashcards') initFlashcards();
   if (id === 'listening') initListening();
   if (id === 'time') initTime();
+  if (id === 'e2j') initE2JSentences();
 }
 
 // ── UTILITIES ──
