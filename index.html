@@ -77,6 +77,11 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .time-note { font-size: 0.85rem; color: #f5c518; margin-bottom: 10px; padding: 6px 8px; background: #2a2000; border-radius: 4px; display: none; }
 .time-note.show { display: block; }
 .time-en-text { font-size: 1rem; color: #aaa; margin-bottom: 10px; }
+
+/* Register badge */
+.texp-register { display: inline-block; font-size: 0.75rem; padding: 2px 10px; border-radius: 4px; margin-bottom: 10px; }
+.texp-register.polite { background: #0d3b2e; color: #6fcf97; border: 1px solid #2d7a5a; }
+.texp-register.casual { background: #3d2400; color: #f2a63b; border: 1px solid #a06020; }
 </style>
 </head>
 <body>
@@ -89,6 +94,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
+  <button class="menu-btn" onclick="showScreen('texp')">Time & Frequency Sentences</button>
 </div>
 
 <!-- VERBS -->
@@ -186,6 +192,34 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   </div>
 </div>
 
+<!-- TIME & FREQUENCY SENTENCES -->
+<div id="texp" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Time & Frequency Sentences</h1>
+  <div class="fc-container">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleTexp()">Shuffle</button>
+      <button class="filter-btn" id="texp-filter-btn" onclick="toggleTexpFilter()">Show All</button>
+      <button class="filter-btn" id="texp-hide-mastered-btn" onclick="toggleTexpHideMastered()">Hide Mastered</button>
+    </div>
+    <div class="fc-counter" id="texp-counter"></div>
+    <div class="flashcard" onclick="flipTexpCard()">
+      <button class="fc-star" id="texp-star" onclick="toggleTexpStar(event)">☆</button>
+      <button class="fc-mastered" id="texp-mastered" onclick="toggleTexpMastered(event)">○</button>
+      <div class="texp-register" id="texp-register"></div>
+      <div class="fc-english" id="texp-english">English sentence</div>
+      <div class="fc-japanese" id="texp-japanese">
+        <div class="fc-kanji" id="texp-japanese-text">日本語</div>
+      </div>
+      <div class="fc-hint" id="texp-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="prevTexpCard()">← Prev</button>
+      <button onclick="nextTexpCard()">Next →</button>
+    </div>
+  </div>
+</div>
+
 <!-- ENGLISH → JAPANESE SENTENCES -->
 <div id="e2j" class="screen">
   <button class="back-btn" onclick="showScreen('home')">← Back</button>
@@ -217,11 +251,13 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="data/sentences.js"></script>
 <script src="data/time.js"></script>
 <script src="data/e2jSentences.js"></script>
+<script src="data/timeExpressions.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/verbs.js"></script>
 <script src="js/flashcards.js"></script>
 <script src="js/listening.js"></script>
 <script src="js/time.js"></script>
 <script src="js/e2jSentences.js"></script>
+<script src="js/timeExpressions.js"></script>
 </body>
 </html>

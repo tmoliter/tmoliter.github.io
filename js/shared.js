@@ -7,6 +7,7 @@ function showScreen(id) {
   if (id === 'listening') initListening();
   if (id === 'time') initTime();
   if (id === 'e2j') initE2JSentences();
+  if (id === 'texp') initTimeExpressions();
 }
 
 // ── UTILITIES ──
