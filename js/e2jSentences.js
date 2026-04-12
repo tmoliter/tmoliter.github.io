@@ -86,6 +86,7 @@ function toggleE2JStar(e) {
   const starBtn = document.getElementById('e2j-star');
   starBtn.textContent = starred[k] ? '★' : '☆';
   starBtn.classList.toggle('starred', !!starred[k]);
+  nextE2JCard();
 }
 
 function toggleE2JFilter() {
@@ -108,6 +109,7 @@ function toggleE2JMastered(e) {
   const masteredBtn = document.getElementById('e2j-mastered');
   masteredBtn.textContent = mastered[k] ? '✓' : '○';
   masteredBtn.classList.toggle('mastered', !!mastered[k]);
+  nextE2JCard();
 }
 
 function toggleE2JHideMastered() {

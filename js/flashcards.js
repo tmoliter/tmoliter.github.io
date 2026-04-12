@@ -85,6 +85,7 @@ function toggleFCStar(e) {
   const starBtn = document.getElementById('fc-star');
   starBtn.textContent = s[k] ? '★' : '☆';
   starBtn.classList.toggle('starred', !!s[k]);
+  nextCard();
 }
 
 function toggleFCFilter() {
@@ -107,6 +108,7 @@ function toggleFCMastered(e) {
   const masteredBtn = document.getElementById('fc-mastered');
   masteredBtn.textContent = m[k] ? '✓' : '○';
   masteredBtn.classList.toggle('mastered', !!m[k]);
+  nextCard();
 }
 
 function toggleFCHideMastered() {
