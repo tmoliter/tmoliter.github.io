@@ -263,8 +263,15 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <button class="fc-star" id="conv-star" onclick="toggleConvStar(event)" style="position: absolute; top: 12px; right: 12px;">☆</button>
     <button class="fc-mastered" id="conv-mastered" onclick="toggleConvMastered(event)" style="position: absolute; top: 12px; right: 50px;">○</button>
     <div class="listen-counter" id="conv-counter" style="margin-top: 4px;"></div>
-    <div style="font-size: 0.8rem; color: #888; margin-bottom: 6px;">Question</div>
-    <div class="time-jp-text" id="conv-question" style="margin-bottom: 16px;"></div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" onclick="playConvQuestion()">▶ Play question</button>
+    </div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" onclick="revealConvQuestion()">Show question</button>
+      <div class="time-reveal-content" id="conv-question-content">
+        <div class="time-jp-text" id="conv-question"></div>
+      </div>
+    </div>
     <div class="time-reveal-block">
       <button class="time-reveal-btn" onclick="revealConvEn()">Show English answer</button>
       <div class="time-reveal-content" id="conv-en-content">

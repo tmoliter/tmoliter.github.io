@@ -23,6 +23,7 @@ function applyConvFilter() {
   if (convDeck.length > 0) loadConvCard();
   else {
     document.getElementById('conv-question').textContent = 'No questions match filters';
+    document.getElementById('conv-question-content').classList.add('show');
     document.getElementById('conv-en-content').classList.remove('show');
     document.getElementById('conv-jp-content').classList.remove('show');
     document.getElementById('conv-counter').textContent = '0 / 0';
@@ -34,6 +35,7 @@ function loadConvCard() {
   document.getElementById('conv-question').textContent = s[1];
   document.getElementById('conv-answer-en').textContent = s[2];
   document.getElementById('conv-answer-jp').textContent = s[3];
+  document.getElementById('conv-question-content').classList.remove('show');
   document.getElementById('conv-en-content').classList.remove('show');
   document.getElementById('conv-jp-content').classList.remove('show');
   document.getElementById('conv-counter').textContent = (convIdx + 1) + ' / ' + convDeck.length;
@@ -51,6 +53,11 @@ function loadConvCard() {
   masteredBtn.classList.toggle('mastered', !!isMastered);
 }
 
+function revealConvQuestion() {
+  if (convDeck.length === 0) return;
+  document.getElementById('conv-question-content').classList.add('show');
+}
+
 function revealConvEn() {
   if (convDeck.length === 0) return;
   document.getElementById('conv-en-content').classList.add('show');
@@ -59,6 +66,25 @@ function revealConvEn() {
 function revealConvJp() {
   if (convDeck.length === 0) return;
   document.getElementById('conv-jp-content').classList.add('show');
+}
+
+function playConvQuestion() {
+  if (convDeck.length === 0) return;
+  const s = convDeck[convIdx];
+  const u = new SpeechSynthesisUtterance(s[1]);
+  u.lang = 'ja-JP';
+  u.rate = 0.9;
+  const preferred = ['O-Ren','Hattori','Kyoko','Google 日本語'];
+  const voices = speechSynthesis.getVoices();
+  let jpVoice = null;
+  for (const name of preferred) {
+    jpVoice = voices.find(v => v.name.includes(name));
+    if (jpVoice) break;
+  }
+  if (!jpVoice) jpVoice = voices.find(v => v.lang.startsWith('ja'));
+  if (jpVoice) u.voice = jpVoice;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
 }
 
 function nextConvCard() {
