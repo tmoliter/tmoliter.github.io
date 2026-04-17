@@ -31,3 +31,9 @@ function getMastered() {
   try { return JSON.parse(localStorage.getItem('n4_mastered') || '{}'); } catch { return {}; }
 }
 function setMastered(obj) { localStorage.setItem('n4_mastered', JSON.stringify(obj)); }
+
+// ── USER ANSWERS (localStorage) ──
+function getUserAnswers() {
+  try { return JSON.parse(localStorage.getItem('n4_user_answers') || '{}'); } catch { return {}; }
+}
+function setUserAnswers(obj) { localStorage.setItem('n4_user_answers', JSON.stringify(obj)); }

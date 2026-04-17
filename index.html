@@ -76,6 +76,8 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .time-reveal-content { padding: 12px 12px 2px; background: #111a30; border-radius: 0 0 6px 6px; display: none; }
 .time-reveal-content.show { display: block; }
 .time-jp-text { font-size: 1.4rem; color: #fff; line-height: 1.5; margin-bottom: 10px; }
+.conv-user-textarea { width: 100%; min-height: 80px; background: #0a1225; color: #fff; border: 1px solid #334; border-radius: 4px; padding: 8px; font-size: 1.2rem; line-height: 1.5; font-family: inherit; resize: vertical; margin-bottom: 10px; box-sizing: border-box; }
+.conv-user-textarea:focus { outline: none; border-color: #7ec8e3; }
 .time-note { font-size: 0.85rem; color: #f5c518; margin-bottom: 10px; padding: 6px 8px; background: #2a2000; border-radius: 4px; display: none; }
 .time-note.show { display: block; }
 .time-en-text { font-size: 1rem; color: #aaa; margin-bottom: 10px; }
@@ -270,6 +272,12 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <button class="time-reveal-btn" onclick="revealConvQuestion()">Show question</button>
       <div class="time-reveal-content" id="conv-question-content">
         <div class="time-jp-text" id="conv-question"></div>
+      </div>
+    </div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" onclick="revealConvUser()">Your Japanese answer</button>
+      <div class="time-reveal-content" id="conv-user-content">
+        <textarea class="conv-user-textarea" id="conv-user-answer" placeholder="Type your answer..." oninput="saveConvUserAnswer()"></textarea>
       </div>
     </div>
     <div class="time-reveal-block">

@@ -37,8 +37,12 @@ function loadConvCard() {
   document.getElementById('conv-answer-jp').textContent = s[3];
   document.getElementById('conv-question-content').classList.remove('show');
   document.getElementById('conv-en-content').classList.remove('show');
+  document.getElementById('conv-user-content').classList.remove('show');
   document.getElementById('conv-jp-content').classList.remove('show');
   document.getElementById('conv-counter').textContent = (convIdx + 1) + ' / ' + convDeck.length;
+
+  const userAnswers = getUserAnswers();
+  document.getElementById('conv-user-answer').value = userAnswers[convKey(s)] || '';
 
   const starred = getStarred();
   const starBtn = document.getElementById('conv-star');
@@ -66,6 +70,21 @@ function revealConvEn() {
 function revealConvJp() {
   if (convDeck.length === 0) return;
   document.getElementById('conv-jp-content').classList.add('show');
+}
+
+function revealConvUser() {
+  if (convDeck.length === 0) return;
+  document.getElementById('conv-user-content').classList.add('show');
+}
+
+function saveConvUserAnswer() {
+  if (convDeck.length === 0) return;
+  const s = convDeck[convIdx];
+  const k = convKey(s);
+  const val = document.getElementById('conv-user-answer').value;
+  const userAnswers = getUserAnswers();
+  if (val.trim() === '') delete userAnswers[k]; else userAnswers[k] = val;
+  setUserAnswers(userAnswers);
 }
 
 function playConvQuestion() {
