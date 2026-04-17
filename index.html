@@ -57,10 +57,12 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .flashcard .fc-japanese.show { display: block; }
 .flashcard .fc-kanji { font-size: 2rem; color: #fff; }
 .flashcard .fc-reading { font-size: 1.1rem; color: #7ec8e3; margin-top: 4px; }
-.flashcard .fc-star { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
-.flashcard .fc-star.starred { color: #f5c518; }
-.flashcard .fc-mastered { position: absolute; top: 12px; right: 50px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
-.flashcard .fc-mastered.mastered { color: #4caf50; }
+.fc-star { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
+.fc-star.starred { color: #f5c518; }
+.fc-mastered { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #555; -webkit-tap-highlight-color: transparent; }
+.fc-mastered.mastered { color: #4caf50; }
+.flashcard .fc-star { position: absolute; top: 12px; right: 12px; }
+.flashcard .fc-mastered { position: absolute; top: 12px; right: 50px; }
 .fc-hint { color: #556; font-size: 0.85rem; margin-top: 10px; }
 .fc-nav { display: flex; gap: 10px; width: 100%; margin-top: 14px; }
 .fc-nav button { flex: 1; padding: 14px; background: #0f3460; border: 1px solid #446; border-radius: 8px; color: #eee; font-size: 1rem; cursor: pointer; }
@@ -95,6 +97,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
   <button class="menu-btn" onclick="showScreen('texp')">Time & Frequency Sentences</button>
+  <button class="menu-btn" onclick="showScreen('conv')">Conversation Practice</button>
 </div>
 
 <!-- VERBS -->
@@ -247,11 +250,46 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   </div>
 </div>
 
+<!-- CONVERSATION PRACTICE -->
+<div id="conv" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Conversation Practice</h1>
+  <div class="toolbar">
+    <button class="shuffle-btn" onclick="shuffleConv()">Shuffle</button>
+    <button class="filter-btn" id="conv-filter-btn" onclick="toggleConvFilter()">Show All</button>
+    <button class="filter-btn" id="conv-hide-mastered-btn" onclick="toggleConvHideMastered()">Hide Mastered</button>
+  </div>
+  <div class="listen-card" style="position: relative;">
+    <button class="fc-star" id="conv-star" onclick="toggleConvStar(event)" style="position: absolute; top: 12px; right: 12px;">☆</button>
+    <button class="fc-mastered" id="conv-mastered" onclick="toggleConvMastered(event)" style="position: absolute; top: 12px; right: 50px;">○</button>
+    <div class="listen-counter" id="conv-counter" style="margin-top: 4px;"></div>
+    <div style="font-size: 0.8rem; color: #888; margin-bottom: 6px;">Question</div>
+    <div class="time-jp-text" id="conv-question" style="margin-bottom: 16px;"></div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" onclick="revealConvEn()">Show English answer</button>
+      <div class="time-reveal-content" id="conv-en-content">
+        <div class="time-en-text" id="conv-answer-en"></div>
+      </div>
+    </div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" onclick="revealConvJp()">Show Japanese answer</button>
+      <div class="time-reveal-content" id="conv-jp-content">
+        <div class="time-jp-text" id="conv-answer-jp"></div>
+      </div>
+    </div>
+    <div class="fc-nav" style="margin-top:16px;">
+      <button onclick="prevConvCard()">← Prev</button>
+      <button onclick="nextConvCard()">Next →</button>
+    </div>
+  </div>
+</div>
+
 <script src="data/verbs.js"></script>
 <script src="data/sentences.js"></script>
 <script src="data/time.js"></script>
 <script src="data/e2jSentences.js"></script>
 <script src="data/timeExpressions.js"></script>
+<script src="data/conversations.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/verbs.js"></script>
 <script src="js/flashcards.js"></script>
@@ -259,5 +297,6 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/time.js"></script>
 <script src="js/e2jSentences.js"></script>
 <script src="js/timeExpressions.js"></script>
+<script src="js/conversations.js"></script>
 </body>
 </html>

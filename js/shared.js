@@ -8,6 +8,7 @@ function showScreen(id) {
   if (id === 'time') initTime();
   if (id === 'e2j') initE2JSentences();
   if (id === 'texp') initTimeExpressions();
+  if (id === 'conv') initConversations();
 }
 
 // ── UTILITIES ──
