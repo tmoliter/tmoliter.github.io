@@ -3,6 +3,7 @@ let convDeck = [];
 let convIdx = 0;
 let convStarredOnly = false;
 let convHideMastered = false;
+let convAnsweredOnly = false;
 
 function initConversations() {
   convDeck = [...conversations];
@@ -18,6 +19,10 @@ function applyConvFilter() {
   if (convHideMastered) {
     const mastered = getMastered();
     convDeck = convDeck.filter(s => !mastered[convKey(s)]);
+  }
+  if (convAnsweredOnly) {
+    const userAnswers = getUserAnswers();
+    convDeck = convDeck.filter(s => userAnswers[convKey(s)]);
   }
   convIdx = 0;
   if (convDeck.length > 0) loadConvCard();
@@ -165,6 +170,15 @@ function toggleConvHideMastered() {
   convHideMastered = !convHideMastered;
   document.getElementById('conv-hide-mastered-btn').textContent = convHideMastered ? '✓ Hide Mastered' : 'Hide Mastered';
   document.getElementById('conv-hide-mastered-btn').classList.toggle('active', convHideMastered);
+  convDeck = [...conversations];
+  shuffleArray(convDeck);
+  applyConvFilter();
+}
+
+function toggleConvAnsweredOnly() {
+  convAnsweredOnly = !convAnsweredOnly;
+  document.getElementById('conv-answered-btn').textContent = convAnsweredOnly ? '✎ Answered Only' : 'Answered Only';
+  document.getElementById('conv-answered-btn').classList.toggle('active', convAnsweredOnly);
   convDeck = [...conversations];
   shuffleArray(convDeck);
   applyConvFilter();
