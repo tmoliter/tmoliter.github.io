@@ -111,6 +111,14 @@ function toggleFCMastered(e) {
   nextCard();
 }
 
+function clearFCMarks() {
+  if (!confirm('Clear all starred and mastered verbs? (Also affects the Verbs list.)')) return;
+  clearMarks(k => k.includes('|'));
+  fcDeck = [...verbs];
+  shuffleArray(fcDeck);
+  applyFCFilter();
+}
+
 function toggleFCHideMastered() {
   fcHideMastered = !fcHideMastered;
   document.getElementById('fc-hide-mastered-btn').textContent = fcHideMastered ? '✓ Hide Mastered' : 'Hide Mastered';

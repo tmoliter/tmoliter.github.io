@@ -110,6 +110,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <button class="shuffle-btn" onclick="shuffleVerbs()">Shuffle</button>
     <button class="filter-btn" id="filter-btn" onclick="toggleFilter()">Show All</button>
     <button class="filter-btn" id="hide-mastered-btn" onclick="toggleHideMastered()">Hide Mastered</button>
+    <button class="shuffle-btn" onclick="clearVerbMarks()">Clear ★/✓</button>
   </div>
   <div class="card-counter" id="verb-counter"></div>
   <div id="verb-list"></div>
@@ -124,6 +125,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <button class="shuffle-btn" onclick="shuffleFC()">Shuffle</button>
       <button class="filter-btn" id="fc-filter-btn" onclick="toggleFCFilter()">Show All</button>
       <button class="filter-btn" id="fc-hide-mastered-btn" onclick="toggleFCHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearFCMarks()">Clear ★/✓</button>
     </div>
     <div class="fc-counter" id="fc-counter"></div>
     <div class="flashcard" id="flashcard" onclick="flipCard()">
@@ -206,6 +208,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <button class="shuffle-btn" onclick="shuffleTexp()">Shuffle</button>
       <button class="filter-btn" id="texp-filter-btn" onclick="toggleTexpFilter()">Show All</button>
       <button class="filter-btn" id="texp-hide-mastered-btn" onclick="toggleTexpHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearTexpMarks()">Clear ★/✓</button>
     </div>
     <div class="fc-counter" id="texp-counter"></div>
     <div class="flashcard" onclick="flipTexpCard()">
@@ -234,6 +237,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <button class="shuffle-btn" onclick="shuffleE2J()">Shuffle</button>
       <button class="filter-btn" id="e2j-filter-btn" onclick="toggleE2JFilter()">Show All</button>
       <button class="filter-btn" id="e2j-hide-mastered-btn" onclick="toggleE2JHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearE2JMarks()">Clear ★/✓</button>
     </div>
     <div class="fc-counter" id="e2j-counter"></div>
     <div class="flashcard" onclick="flipE2JCard()">
@@ -261,6 +265,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <button class="filter-btn" id="conv-filter-btn" onclick="toggleConvFilter()">Show All</button>
     <button class="filter-btn" id="conv-hide-mastered-btn" onclick="toggleConvHideMastered()">Hide Mastered</button>
     <button class="filter-btn" id="conv-answered-btn" onclick="toggleConvAnsweredOnly()">Answered Only</button>
+    <button class="shuffle-btn" onclick="clearConvMarks()">Clear ★/✓</button>
   </div>
   <div class="listen-card" style="position: relative;">
     <button class="fc-star" id="conv-star" onclick="toggleConvStar(event)" style="position: absolute; top: 12px; right: 12px;">☆</button>

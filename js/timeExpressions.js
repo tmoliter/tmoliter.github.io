@@ -126,6 +126,14 @@ function toggleTexpHideMastered() {
   applyTexpFilter();
 }
 
+function clearTexpMarks() {
+  if (!confirm('Clear all starred and mastered time & frequency sentences?')) return;
+  clearMarks(k => k.startsWith('texp_'));
+  texpDeck = [...timeExpressionSentences];
+  shuffleArray(texpDeck);
+  applyTexpFilter();
+}
+
 function texpKey(s) {
   return 'texp_' + s[0];
 }

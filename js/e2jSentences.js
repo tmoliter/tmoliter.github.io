@@ -121,6 +121,14 @@ function toggleE2JHideMastered() {
   applyE2JFilter();
 }
 
+function clearE2JMarks() {
+  if (!confirm('Clear all starred and mastered English → Japanese sentences?')) return;
+  clearMarks(k => k.startsWith('e2j_'));
+  e2jDeck = [...e2jSentences];
+  shuffleArray(e2jDeck);
+  applyE2JFilter();
+}
+
 function e2jKey(s) {
   return 'e2j_' + s[0];
 }

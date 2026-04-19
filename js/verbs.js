@@ -42,6 +42,12 @@ function shuffleVerbs() {
   renderVerbs();
 }
 
+function clearVerbMarks() {
+  if (!confirm('Clear all starred and mastered verbs? (Also affects Flashcard Mode.)')) return;
+  clearMarks(k => k.includes('|'));
+  renderVerbs();
+}
+
 function renderVerbs() {
   const list = document.getElementById('verb-list');
   const starred = getStarred();

@@ -37,3 +37,13 @@ function getUserAnswers() {
   try { return JSON.parse(localStorage.getItem('n4_user_answers') || '{}'); } catch { return {}; }
 }
 function setUserAnswers(obj) { localStorage.setItem('n4_user_answers', JSON.stringify(obj)); }
+
+// Clear starred + mastered entries whose key matches `predicate(key)`.
+function clearMarks(predicate) {
+  const s = getStarred();
+  const m = getMastered();
+  for (const k of Object.keys(s)) if (predicate(k)) delete s[k];
+  for (const k of Object.keys(m)) if (predicate(k)) delete m[k];
+  setStarred(s);
+  setMastered(m);
+}

@@ -184,6 +184,14 @@ function toggleConvAnsweredOnly() {
   applyConvFilter();
 }
 
+function clearConvMarks() {
+  if (!confirm('Clear all starred and mastered conversation questions?')) return;
+  clearMarks(k => k.startsWith('conv_'));
+  convDeck = [...conversations];
+  shuffleArray(convDeck);
+  applyConvFilter();
+}
+
 function convKey(s) {
   return 'conv_' + s[0];
 }
