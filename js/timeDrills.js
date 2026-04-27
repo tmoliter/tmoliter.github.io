@@ -43,7 +43,32 @@ function drillSetPhase(n) {
   if (n === 5) initDrillP5();
 }
 
+let drillCurrentAudio = null;
+
+function drillStopAudio() {
+  if (drillCurrentAudio) {
+    drillCurrentAudio.pause();
+    drillCurrentAudio.src = '';
+    drillCurrentAudio = null;
+  }
+  speechSynthesis.cancel();
+}
+
 function drillSpeak(text) {
+  drillStopAudio();
+  const file = (typeof timeAudioManifest !== 'undefined') ? timeAudioManifest[text] : null;
+  if (file) {
+    const a = new Audio('audio/time/' + file);
+    a.playbackRate = drillSpeechRate;
+    a.preservesPitch = true;
+    drillCurrentAudio = a;
+    a.play().catch(() => drillSpeakFallback(text));
+    return;
+  }
+  drillSpeakFallback(text);
+}
+
+function drillSpeakFallback(text) {
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'ja-JP';
   u.rate = drillSpeechRate;
@@ -56,7 +81,6 @@ function drillSpeak(text) {
   }
   if (!jp) jp = voices.find(v => v.lang.startsWith('ja'));
   if (jp) u.voice = jp;
-  speechSynthesis.cancel();
   speechSynthesis.speak(u);
 }
 
@@ -410,4 +434,4 @@ function p5PlayAll() {
   }
   step();
 }
-function p5StopPlayAll() { p5PlayAllToken++; speechSynthesis.cancel(); }
+function p5StopPlayAll() { p5PlayAllToken++; drillStopAudio(); }
