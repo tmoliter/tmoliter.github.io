@@ -9,6 +9,7 @@ function showScreen(id) {
   if (id === 'e2j') initE2JSentences();
   if (id === 'texp') initTimeExpressions();
   if (id === 'conv') initConversations();
+  if (id === 'drill') initTimeDrills();
 }
 
 // ── UTILITIES ──

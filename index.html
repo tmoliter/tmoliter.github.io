@@ -86,6 +86,29 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .texp-register { display: inline-block; font-size: 0.75rem; padding: 2px 10px; border-radius: 4px; margin-bottom: 10px; }
 .texp-register.polite { background: #0d3b2e; color: #6fcf97; border: 1px solid #2d7a5a; }
 .texp-register.casual { background: #3d2400; color: #f2a63b; border: 1px solid #a06020; }
+
+/* Time Expression Drill Plan */
+.drill-tabs { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+.drill-tab { flex: 1 1 auto; min-width: 60px; padding: 8px 6px; background: #16213e; border: 1px solid #334; border-radius: 6px; color: #9ab; font-size: 0.8rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.drill-tab.active { background: #0f3460; border-color: #7ec8e3; color: #7ec8e3; }
+.drill-phase-desc { background: #111a30; border: 1px solid #223; border-radius: 6px; padding: 10px 12px; font-size: 0.85rem; color: #9ab; margin-bottom: 14px; line-height: 1.45; }
+.drill-counter { color: #666; font-size: 0.85rem; margin-bottom: 10px; text-align: center; }
+.drill-big-jp { font-size: 2.4rem; color: #fff; text-align: center; padding: 28px 12px; background: #111a30; border-radius: 8px; margin-bottom: 12px; line-height: 1.3; }
+.drill-listen-prompt { font-size: 1.1rem; color: #7ec8e3; text-align: center; padding: 22px 12px; background: #111a30; border-radius: 8px; margin-bottom: 12px; letter-spacing: 0.05em; }
+.drill-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 10px 0; }
+.drill-cat-btn { padding: 14px 8px; background: #16213e; border: 1px solid #334; border-radius: 6px; color: #cde; font-size: 0.95rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.drill-cat-btn:active { background: #1a3a5c; }
+.drill-cat-btn:disabled { cursor: default; opacity: 0.7; }
+.drill-cat-btn.correct { background: #0d3b2e; border-color: #2d7a5a; color: #6fcf97; }
+.drill-cat-btn.wrong { background: #3d1525; border-color: #8a3050; color: #ff8aa5; }
+.drill-score { color: #7ec8e3; font-size: 0.85rem; margin-bottom: 8px; text-align: center; }
+.drill-feedback { padding: 12px; background: #0a1225; border-radius: 6px; display: none; margin-top: 10px; }
+.drill-feedback.show { display: block; }
+.drill-feedback .fb-row { font-size: 0.9rem; color: #aab; margin-bottom: 4px; }
+.drill-feedback .fb-row strong { color: #cde; }
+.drill-time-exp { display: inline-block; background: #0f3460; color: #7ec8e3; padding: 4px 10px; border-radius: 4px; font-size: 1rem; margin-bottom: 8px; }
+.drill-cat-tag { display: inline-block; background: #2a2000; color: #f5c518; border: 1px solid #5a4500; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-left: 6px; }
+.drill-select { width: 100%; padding: 10px; background: #16213e; border: 1px solid #334; border-radius: 6px; color: #cde; font-size: 0.95rem; margin-bottom: 10px; }
 </style>
 </head>
 <body>
@@ -99,6 +122,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
   <button class="menu-btn" onclick="showScreen('texp')">Time & Frequency Sentences</button>
+  <button class="menu-btn" onclick="showScreen('drill')">Time Expression Drill Plan</button>
   <button class="menu-btn" onclick="showScreen('conv')">Conversation Practice</button>
 </div>
 
@@ -305,12 +329,198 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   </div>
 </div>
 
+<!-- TIME EXPRESSION DRILL PLAN -->
+<div id="drill" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Time Expression Drill Plan</h1>
+  <div class="drill-tabs">
+    <button class="drill-tab active" data-phase="1" onclick="drillSetPhase(1)">1·Recog</button>
+    <button class="drill-tab" data-phase="2" onclick="drillSetPhase(2)">2·Tag</button>
+    <button class="drill-tab" data-phase="3" onclick="drillSetPhase(3)">3·Micro</button>
+    <button class="drill-tab" data-phase="4" onclick="drillSetPhase(4)">4·Listen</button>
+    <button class="drill-tab" data-phase="5" onclick="drillSetPhase(5)">5·Burst</button>
+  </div>
+  <div class="drill-phase-desc" id="drill-phase-desc"></div>
+
+  <!-- Phase 1: Recognition -->
+  <div class="drill-panel" data-phase="1">
+    <div class="toolbar">
+      <button class="shuffle-btn" onclick="p1Shuffle()">Shuffle</button>
+      <button class="filter-btn" id="p1-tricky-btn" onclick="p1ToggleTricky()">Tricky Only</button>
+    </div>
+    <select class="drill-select" onchange="p1ChangeCat(this.value)">
+      <option value="all">All categories</option>
+      <option value="point">Point only (specific time / date)</option>
+      <option value="duration">Duration only</option>
+      <option value="relative">Relative only</option>
+      <option value="ambiguous">Ambiguous only (irregular date readings)</option>
+    </select>
+    <div class="drill-counter" id="p1-counter"></div>
+    <div class="listen-card">
+      <div class="drill-listen-prompt">🎧 Listen</div>
+      <button class="play-btn" onclick="p1PlayAudio()">▶</button>
+      <div class="speed-controls">
+        <button onclick="drillSetSpeed(0.85, this)">Slow</button>
+        <button class="active" onclick="drillSetSpeed(1, this)">Normal</button>
+        <button onclick="drillSetSpeed(1.1, this)">Fast</button>
+      </div>
+      <div class="time-reveal-block">
+        <button class="time-reveal-btn" id="p1-reveal-btn" onclick="p1Reveal()">Show meaning</button>
+        <div class="time-reveal-content" id="p1-reveal-content">
+          <div id="p1-tricky" class="time-tricky" style="display:none;">⚠ tricky reading</div>
+          <div class="time-jp-text" id="p1-jp"></div>
+          <div class="time-jp-text" id="p1-reading" style="font-size:1.1rem; color:#7ec8e3;"></div>
+          <div class="time-en-text" id="p1-en"></div>
+          <div class="drill-cat-tag" id="p1-cat"></div>
+          <div class="time-note" id="p1-note" style="margin-top:10px;"></div>
+        </div>
+      </div>
+      <div class="fc-nav" style="margin-top:14px;">
+        <button onclick="p1Prev()">← Prev</button>
+        <button onclick="p1Next()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2: Category tagging -->
+  <div class="drill-panel" data-phase="2" style="display:none;">
+    <div class="toolbar">
+      <button class="shuffle-btn" onclick="p2Shuffle()">Shuffle</button>
+      <button class="shuffle-btn" onclick="p2ResetScore()">Reset Score</button>
+    </div>
+    <div class="drill-counter" id="p2-counter"></div>
+    <div class="drill-score">Score: <span id="p2-score">0 / 0</span></div>
+    <div class="listen-card">
+      <div class="drill-listen-prompt">🎧 Listen</div>
+      <button class="play-btn" onclick="p2PlayAudio()">▶</button>
+      <div class="speed-controls">
+        <button onclick="drillSetSpeed(0.85, this)">Slow</button>
+        <button class="active" onclick="drillSetSpeed(1, this)">Normal</button>
+        <button onclick="drillSetSpeed(1.1, this)">Fast</button>
+      </div>
+      <div style="text-align:center; color:#9ab; font-size:0.85rem; margin:6px 0 4px;">What kind of time is it?</div>
+      <div class="drill-cat-grid">
+        <button class="drill-cat-btn p2-cat-btn" data-cat="point" onclick="p2Tag('point', this)">Point<br><span style="font-size:0.75rem;color:#9ab;">specific time / date</span></button>
+        <button class="drill-cat-btn p2-cat-btn" data-cat="duration" onclick="p2Tag('duration', this)">Duration<br><span style="font-size:0.75rem;color:#9ab;">時間 / 日間 / 分</span></button>
+        <button class="drill-cat-btn p2-cat-btn" data-cat="relative" onclick="p2Tag('relative', this)">Relative<br><span style="font-size:0.75rem;color:#9ab;">〜後 / 来週 / 明日</span></button>
+        <button class="drill-cat-btn p2-cat-btn" data-cat="ambiguous" onclick="p2Tag('ambiguous', this)">Ambiguous<br><span style="font-size:0.75rem;color:#9ab;">date or duration</span></button>
+      </div>
+      <div class="drill-feedback" id="p2-feedback">
+        <div id="p2-tricky" class="time-tricky" style="display:none;">⚠ tricky reading</div>
+        <div class="fb-row"><strong>Japanese:</strong> <span id="p2-fb-jp" style="font-size:1.2rem; color:#fff;"></span></div>
+        <div class="fb-row"><strong>Reading:</strong> <span id="p2-fb-reading"></span></div>
+        <div class="fb-row"><strong>Meaning:</strong> <span id="p2-fb-en"></span></div>
+        <div class="fb-row"><strong>Category:</strong> <span id="p2-fb-cat"></span></div>
+        <div class="time-note" id="p2-fb-note" style="margin-top:8px;"></div>
+      </div>
+      <button class="next-btn" onclick="p2Next()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Phase 3: Micro-embedding -->
+  <div class="drill-panel" data-phase="3" style="display:none;">
+    <div class="toolbar">
+      <button class="shuffle-btn" onclick="p3Shuffle()">Shuffle</button>
+    </div>
+    <div class="drill-counter" id="p3-counter"></div>
+    <div class="listen-card">
+      <div class="drill-listen-prompt">🎧 Listen</div>
+      <button class="play-btn" onclick="p3PlayAudio()">▶</button>
+      <div class="speed-controls">
+        <button onclick="drillSetSpeed(0.85, this)">Slow</button>
+        <button class="active" onclick="drillSetSpeed(1, this)">Normal</button>
+        <button onclick="drillSetSpeed(1.1, this)">Fast</button>
+      </div>
+      <div class="time-reveal-block">
+        <button class="time-reveal-btn" id="p3-reveal-btn" onclick="p3Reveal()">Show sentence & meaning</button>
+        <div class="time-reveal-content" id="p3-reveal-content">
+          <div class="time-jp-text" id="p3-jp"></div>
+          <div class="time-en-text" id="p3-en"></div>
+          <div class="drill-cat-tag" id="p3-cat"></div>
+        </div>
+      </div>
+      <div class="fc-nav" style="margin-top:14px;">
+        <button onclick="p3Prev()">← Prev</button>
+        <button onclick="p3Next()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4: Time-first listening -->
+  <div class="drill-panel" data-phase="4" style="display:none;">
+    <div class="toolbar">
+      <button class="shuffle-btn" onclick="p4Shuffle()">Shuffle</button>
+    </div>
+    <div class="drill-counter" id="p4-counter"></div>
+    <div class="listen-card">
+      <div style="text-align:center; color:#9ab; font-size:0.85rem; margin-bottom:10px;">Listen — don't decode the time, just tag it.</div>
+      <button class="play-btn" onclick="p4PlayAudio()">▶</button>
+      <div class="speed-controls">
+        <button onclick="drillSetSpeed(0.85, this)">Slow</button>
+        <button class="active" onclick="drillSetSpeed(1, this)">Normal</button>
+        <button onclick="drillSetSpeed(1.1, this)">Fast</button>
+      </div>
+      <div style="text-align:center; color:#9ab; font-size:0.85rem; margin:6px 0 4px;">Time expression type?</div>
+      <div class="drill-cat-grid">
+        <button class="drill-cat-btn p4-cat-btn" data-cat="point" onclick="p4Tag('point', this)">Point</button>
+        <button class="drill-cat-btn p4-cat-btn" data-cat="duration" onclick="p4Tag('duration', this)">Duration</button>
+        <button class="drill-cat-btn p4-cat-btn" data-cat="relative" onclick="p4Tag('relative', this)">Relative</button>
+        <button class="drill-cat-btn p4-cat-btn" data-cat="ambiguous" onclick="p4Tag('ambiguous', this)">Ambiguous</button>
+      </div>
+      <div class="drill-feedback" id="p4-feedback">
+        <div class="fb-row"><strong>Type:</strong> <span class="drill-cat-tag" id="p4-cat"></span></div>
+        <div class="time-reveal-block" style="margin-top:10px;">
+          <button class="time-reveal-btn" id="p4-reveal-btn" onclick="p4Reveal()">Show sentence</button>
+          <div class="time-reveal-content" id="p4-reveal-content">
+            <div class="fb-row" style="margin-bottom:6px;"><strong>Time expression:</strong> <span class="drill-time-exp" id="p4-time-exp"></span></div>
+            <div class="time-jp-text" id="p4-jp"></div>
+            <div class="time-en-text" id="p4-en"></div>
+          </div>
+        </div>
+      </div>
+      <button class="next-btn" onclick="p4Next()">Next →</button>
+    </div>
+  </div>
+
+  <!-- Phase 5: Density bursts -->
+  <div class="drill-panel" data-phase="5" style="display:none;">
+    <select class="drill-select" id="p5-burst-select" onchange="p5SelectBurst(this.value)"></select>
+    <div class="drill-counter" id="p5-counter"></div>
+    <div class="listen-card">
+      <div style="text-align:center; color:#7ec8e3; font-size:0.85rem; margin-bottom:8px;" id="p5-theme"></div>
+      <div class="drill-listen-prompt">🎧 Listen</div>
+      <button class="play-btn" onclick="p5PlayAudio()">▶</button>
+      <div class="speed-controls">
+        <button onclick="drillSetSpeed(0.85, this)">Slow</button>
+        <button class="active" onclick="drillSetSpeed(1, this)">Normal</button>
+        <button onclick="drillSetSpeed(1.1, this)">Fast</button>
+      </div>
+      <div class="toolbar" style="justify-content:center; margin-top:8px;">
+        <button class="shuffle-btn" onclick="p5PlayAll()">▶▶ Play All</button>
+        <button class="shuffle-btn" onclick="p5StopPlayAll()">■ Stop</button>
+      </div>
+      <div class="time-reveal-block">
+        <button class="time-reveal-btn" id="p5-reveal-btn" onclick="p5Reveal()">Show Japanese & meaning</button>
+        <div class="time-reveal-content" id="p5-reveal-content">
+          <div class="time-jp-text" id="p5-jp"></div>
+          <div class="time-en-text" id="p5-en"></div>
+        </div>
+      </div>
+      <div class="fc-nav" style="margin-top:14px;">
+        <button onclick="p5Prev()">← Prev</button>
+        <button onclick="p5Next()">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="data/verbs.js"></script>
 <script src="data/sentences.js"></script>
 <script src="data/time.js"></script>
 <script src="data/e2jSentences.js"></script>
 <script src="data/timeExpressions.js"></script>
 <script src="data/conversations.js"></script>
+<script src="data/timeDrills.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/verbs.js"></script>
 <script src="js/flashcards.js"></script>
@@ -319,5 +529,6 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/e2jSentences.js"></script>
 <script src="js/timeExpressions.js"></script>
 <script src="js/conversations.js"></script>
+<script src="js/timeDrills.js"></script>
 </body>
 </html>
