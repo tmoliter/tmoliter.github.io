@@ -92,10 +92,33 @@ function saveConvUserAnswer() {
   setUserAnswers(userAnswers);
 }
 
-function playConvQuestion() {
-  if (convDeck.length === 0) return;
-  const s = convDeck[convIdx];
-  const u = new SpeechSynthesisUtterance(s[1]);
+let convCurrentAudio = null;
+
+function convStopAudio() {
+  if (convCurrentAudio) {
+    convCurrentAudio.pause();
+    convCurrentAudio.src = '';
+    convCurrentAudio = null;
+  }
+  speechSynthesis.cancel();
+}
+
+function convSpeak(text) {
+  convStopAudio();
+  const file = (typeof conversationAudioManifest !== 'undefined') ? conversationAudioManifest[text] : null;
+  if (file) {
+    const a = new Audio('audio/conversations/' + file);
+    a.playbackRate = 0.9;
+    a.preservesPitch = true;
+    convCurrentAudio = a;
+    a.play().catch(() => convSpeakFallback(text));
+    return;
+  }
+  convSpeakFallback(text);
+}
+
+function convSpeakFallback(text) {
+  const u = new SpeechSynthesisUtterance(text);
   u.lang = 'ja-JP';
   u.rate = 0.9;
   const preferred = ['O-Ren','Hattori','Kyoko','Google 日本語'];
@@ -107,8 +130,12 @@ function playConvQuestion() {
   }
   if (!jpVoice) jpVoice = voices.find(v => v.lang.startsWith('ja'));
   if (jpVoice) u.voice = jpVoice;
-  speechSynthesis.cancel();
   speechSynthesis.speak(u);
+}
+
+function playConvQuestion() {
+  if (convDeck.length === 0) return;
+  convSpeak(convDeck[convIdx][1]);
 }
 
 function nextConvCard() {
