@@ -120,6 +120,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
   <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
   <button class="menu-btn" onclick="showScreen('adj')">Adjective Drill (い / な)</button>
+  <button class="menu-btn" onclick="showScreen('doc')">Doc Vocab</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
   <button class="menu-btn" onclick="showScreen('texp')">Time & Frequency Sentences</button>
@@ -305,6 +306,35 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <div class="fc-nav">
       <button onclick="prevAdjCard()">← Prev</button>
       <button onclick="nextAdjCard()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOC VOCAB -->
+<div id="doc" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Doc Vocab</h1>
+  <div class="fc-container">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleDoc()">Shuffle</button>
+      <button class="filter-btn" id="doc-filter-btn" onclick="toggleDocFilter()">Show All</button>
+      <button class="filter-btn" id="doc-hide-mastered-btn" onclick="toggleDocHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearDocMarks()">Clear ★/✓</button>
+    </div>
+    <div class="fc-counter" id="doc-counter"></div>
+    <div class="flashcard" onclick="flipDocCard()">
+      <button class="fc-star" id="doc-star" onclick="toggleDocStar(event)">☆</button>
+      <button class="fc-mastered" id="doc-mastered" onclick="toggleDocMastered(event)">○</button>
+      <div class="fc-english" id="doc-english">English</div>
+      <div class="fc-japanese" id="doc-japanese">
+        <div class="fc-kanji" id="doc-kanji">日本語</div>
+        <div class="fc-reading" id="doc-reading">よみ</div>
+      </div>
+      <div class="fc-hint" id="doc-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="prevDocCard()">← Prev</button>
+      <button onclick="nextDocCard()">Next →</button>
     </div>
   </div>
 </div>
@@ -548,6 +578,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="data/time.js"></script>
 <script src="data/e2jSentences.js"></script>
 <script src="data/adjectives.js"></script>
+<script src="data/docVocab.js"></script>
 <script src="data/timeExpressions.js"></script>
 <script src="data/conversations.js"></script>
 <script src="data/timeDrills.js"></script>
@@ -560,6 +591,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/time.js"></script>
 <script src="js/e2jSentences.js"></script>
 <script src="js/adjectives.js"></script>
+<script src="js/docVocab.js"></script>
 <script src="js/timeExpressions.js"></script>
 <script src="js/conversations.js"></script>
 <script src="js/timeDrills.js"></script>
