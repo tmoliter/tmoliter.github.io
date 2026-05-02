@@ -119,6 +119,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('verbs')">Japanese → English Verbs</button>
   <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
   <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
+  <button class="menu-btn" onclick="showScreen('adj')">Adjective Drill (い / な)</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
   <button class="menu-btn" onclick="showScreen('texp')">Time & Frequency Sentences</button>
@@ -276,6 +277,34 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <div class="fc-nav">
       <button onclick="prevE2JCard()">← Prev</button>
       <button onclick="nextE2JCard()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADJECTIVE DRILL -->
+<div id="adj" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Adjective Drill</h1>
+  <div class="fc-container">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleAdj()">Shuffle</button>
+      <button class="filter-btn" id="adj-filter-btn" onclick="toggleAdjFilter()">Show All</button>
+      <button class="filter-btn" id="adj-hide-mastered-btn" onclick="toggleAdjHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearAdjMarks()">Clear ★/✓</button>
+    </div>
+    <div class="fc-counter" id="adj-counter"></div>
+    <div class="flashcard" onclick="flipAdjCard()">
+      <button class="fc-star" id="adj-star" onclick="toggleAdjStar(event)">☆</button>
+      <button class="fc-mastered" id="adj-mastered" onclick="toggleAdjMastered(event)">○</button>
+      <div class="fc-english" id="adj-english">English sentence</div>
+      <div class="fc-japanese" id="adj-japanese">
+        <div class="fc-kanji" id="adj-japanese-text">日本語</div>
+      </div>
+      <div class="fc-hint" id="adj-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="prevAdjCard()">← Prev</button>
+      <button onclick="nextAdjCard()">Next →</button>
     </div>
   </div>
 </div>
@@ -518,6 +547,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="data/sentences.js"></script>
 <script src="data/time.js"></script>
 <script src="data/e2jSentences.js"></script>
+<script src="data/adjectives.js"></script>
 <script src="data/timeExpressions.js"></script>
 <script src="data/conversations.js"></script>
 <script src="data/timeDrills.js"></script>
@@ -529,6 +559,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/listening.js"></script>
 <script src="js/time.js"></script>
 <script src="js/e2jSentences.js"></script>
+<script src="js/adjectives.js"></script>
 <script src="js/timeExpressions.js"></script>
 <script src="js/conversations.js"></script>
 <script src="js/timeDrills.js"></script>

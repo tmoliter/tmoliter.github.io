@@ -7,6 +7,7 @@ function showScreen(id) {
   if (id === 'listening') initListening();
   if (id === 'time') initTime();
   if (id === 'e2j') initE2JSentences();
+  if (id === 'adj') initAdjectives();
   if (id === 'texp') initTimeExpressions();
   if (id === 'conv') initConversations();
   if (id === 'drill') initTimeDrills();
