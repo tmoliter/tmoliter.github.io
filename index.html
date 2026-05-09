@@ -67,6 +67,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .flashcard .fc-star { position: absolute; top: 12px; right: 12px; }
 .flashcard .fc-mastered { position: absolute; top: 12px; right: 50px; }
 .fc-hint { color: #556; font-size: 0.85rem; margin-top: 10px; }
+.flashcard .fc-notes { font-size: 0.85rem; color: #888; margin-top: 14px; text-align: left; white-space: pre-wrap; line-height: 1.4; }
 .fc-nav { display: flex; gap: 10px; width: 100%; margin-top: 14px; }
 .fc-nav button { flex: 1; padding: 14px; background: #0f3460; border: 1px solid #446; border-radius: 8px; color: #eee; font-size: 1rem; cursor: pointer; }
 .fc-nav button:active { background: #1a4a7a; }
@@ -122,6 +123,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('verbs')">Japanese → English Verbs</button>
   <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
   <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
+  <button class="menu-btn" onclick="showScreen('e2jn')">Anki E2J Export</button>
   <button class="menu-btn" onclick="showScreen('adj')">Adjective Drill (い / な)</button>
   <button class="menu-btn" onclick="showScreen('doc')">Doc Vocab</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
@@ -281,6 +283,36 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <div class="fc-nav">
       <button onclick="prevE2JCard()">← Prev</button>
       <button onclick="nextE2JCard()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ANKI E2J EXPORT -->
+<div id="e2jn" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Anki E2J Export</h1>
+  <div class="fc-container">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleE2JN()">Shuffle</button>
+      <button class="filter-btn" id="e2jn-filter-btn" onclick="toggleE2JNFilter()">Show All</button>
+      <button class="filter-btn" id="e2jn-hide-mastered-btn" onclick="toggleE2JNHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearE2JNMarks()">Clear ★/✓</button>
+    </div>
+    <div class="fc-counter" id="e2jn-counter"></div>
+    <div class="flashcard" onclick="flipE2JNCard()">
+      <button class="fc-star" id="e2jn-star" onclick="toggleE2JNStar(event)">☆</button>
+      <button class="fc-mastered" id="e2jn-mastered" onclick="toggleE2JNMastered(event)">○</button>
+      <div class="fc-english" id="e2jn-english">English</div>
+      <div class="fc-japanese" id="e2jn-japanese">
+        <div class="fc-reading" id="e2jn-vocab"></div>
+        <div class="fc-kanji" id="e2jn-japanese-text"></div>
+        <div class="fc-notes" id="e2jn-notes"></div>
+      </div>
+      <div class="fc-hint" id="e2jn-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="prevE2JNCard()">← Prev</button>
+      <button onclick="nextE2JNCard()">Next →</button>
     </div>
   </div>
 </div>
@@ -580,6 +612,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="data/sentences.js"></script>
 <script src="data/time.js"></script>
 <script src="data/e2jSentences.js"></script>
+<script src="data/e2jNotes.js"></script>
 <script src="data/adjectives.js"></script>
 <script src="data/docVocab.js"></script>
 <script src="data/timeExpressions.js"></script>
@@ -593,6 +626,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/listening.js"></script>
 <script src="js/time.js"></script>
 <script src="js/e2jSentences.js"></script>
+<script src="js/e2jNotes.js"></script>
 <script src="js/adjectives.js"></script>
 <script src="js/docVocab.js"></script>
 <script src="js/timeExpressions.js"></script>
