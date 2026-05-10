@@ -16,6 +16,8 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .back-btn { background: none; border: none; color: #7ec8e3; font-size: 1rem; cursor: pointer; margin-bottom: 12px; }
 .menu-btn { display: block; width: 100%; padding: 18px; margin-bottom: 12px; background: #16213e; border: 1px solid #334; border-radius: 8px; color: #eee; font-size: 1.1rem; text-align: left; cursor: pointer; }
 .menu-btn:active { background: #1a3a5c; }
+.menu-group-label { font-size: 0.75rem; color: #7ec8e3; text-transform: uppercase; letter-spacing: 0.08em; margin: 22px 4px 8px; }
+.menu-group-label:first-of-type { margin-top: 4px; }
 
 /* Verb cards */
 .card { background: #16213e; border: 1px solid #334; border-radius: 8px; padding: 20px 72px 20px 20px; margin-bottom: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; }
@@ -120,57 +122,67 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <!-- HOME -->
 <div id="home" class="screen active">
   <h1>N4 Study</h1>
-  <button class="menu-btn" onclick="showScreen('verbs')">Japanese → English Verbs</button>
-  <button class="menu-btn" onclick="showScreen('flashcards')">Flashcard Mode</button>
+
+  <div class="menu-group-label">Vocabulary</div>
+  <button class="menu-btn" onclick="showScreen('flashcards')">N4 Verbs</button>
+  <button class="menu-btn" onclick="showScreen('adj')">Adjectives (い / な)</button>
+  <button class="menu-btn" onclick="showScreen('doc')">Doc Vocab</button>
+
+  <div class="menu-group-label">Sentence Practice</div>
   <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
   <button class="menu-btn" onclick="showScreen('e2jn')">Anki E2J Export</button>
-  <button class="menu-btn" onclick="showScreen('adj')">Adjective Drill (い / な)</button>
-  <button class="menu-btn" onclick="showScreen('doc')">Doc Vocab</button>
+
+  <div class="menu-group-label">Listening & Conversation</div>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('drill')">Time Expression Drill Plan</button>
   <button class="menu-btn" onclick="showScreen('conv')">Conversation Practice</button>
 </div>
 
-<!-- VERBS -->
-<div id="verbs" class="screen">
-  <button class="back-btn" onclick="showScreen('home')">← Back</button>
-  <h1>Japanese → English</h1>
-  <div class="toolbar">
-    <button class="shuffle-btn" onclick="shuffleVerbs()">Shuffle</button>
-    <button class="filter-btn" id="filter-btn" onclick="toggleFilter()">Show All</button>
-    <button class="filter-btn" id="hide-mastered-btn" onclick="toggleHideMastered()">Hide Mastered</button>
-    <button class="shuffle-btn" onclick="clearVerbMarks()">Clear ★/✓</button>
-  </div>
-  <div class="card-counter" id="verb-counter"></div>
-  <div id="verb-list"></div>
-</div>
-
-<!-- FLASHCARDS -->
+<!-- N4 VERBS (Cards + List sub-modes) -->
 <div id="flashcards" class="screen">
   <button class="back-btn" onclick="showScreen('home')">← Back</button>
-  <h1>Flashcard Mode</h1>
-  <div class="fc-container">
-    <div class="fc-toolbar">
-      <button class="shuffle-btn" onclick="shuffleFC()">Shuffle</button>
-      <button class="filter-btn" id="fc-filter-btn" onclick="toggleFCFilter()">Show All</button>
-      <button class="filter-btn" id="fc-hide-mastered-btn" onclick="toggleFCHideMastered()">Hide Mastered</button>
-      <button class="shuffle-btn" onclick="clearFCMarks()">Clear ★/✓</button>
-    </div>
-    <div class="fc-counter" id="fc-counter"></div>
-    <div class="flashcard" id="flashcard" onclick="flipCard()">
-      <button class="fc-star" id="fc-star" onclick="toggleFCStar(event)">☆</button>
-      <button class="fc-mastered" id="fc-mastered" onclick="toggleFCMastered(event)">○</button>
-      <div class="fc-english" id="fc-english"></div>
-      <div class="fc-japanese" id="fc-japanese">
-        <div class="fc-kanji" id="fc-kanji"></div>
-        <div class="fc-reading" id="fc-reading"></div>
+  <h1>N4 Verbs</h1>
+
+  <div class="drill-tabs">
+    <button class="drill-tab active" data-fcmode="cards" onclick="fcSetMode('cards')">Cards</button>
+    <button class="drill-tab" data-fcmode="list" onclick="fcSetMode('list')">List</button>
+  </div>
+
+  <div class="fc-mode-panel" data-fcmode="cards">
+    <div class="fc-container">
+      <div class="fc-toolbar">
+        <button class="shuffle-btn" onclick="shuffleFC()">Shuffle</button>
+        <button class="filter-btn" id="fc-filter-btn" onclick="toggleFCFilter()">Show All</button>
+        <button class="filter-btn" id="fc-hide-mastered-btn" onclick="toggleFCHideMastered()">Hide Mastered</button>
+        <button class="shuffle-btn" onclick="clearFCMarks()">Clear ★/✓</button>
       </div>
-      <div class="fc-hint" id="fc-hint">Tap to reveal</div>
+      <div class="fc-counter" id="fc-counter"></div>
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <button class="fc-star" id="fc-star" onclick="toggleFCStar(event)">☆</button>
+        <button class="fc-mastered" id="fc-mastered" onclick="toggleFCMastered(event)">○</button>
+        <div class="fc-english" id="fc-english"></div>
+        <div class="fc-japanese" id="fc-japanese">
+          <div class="fc-kanji" id="fc-kanji"></div>
+          <div class="fc-reading" id="fc-reading"></div>
+        </div>
+        <div class="fc-hint" id="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-nav">
+        <button onclick="prevCard()">← Prev</button>
+        <button onclick="nextCard()">Next →</button>
+      </div>
     </div>
-    <div class="fc-nav">
-      <button onclick="prevCard()">← Prev</button>
-      <button onclick="nextCard()">Next →</button>
+  </div>
+
+  <div class="fc-mode-panel" data-fcmode="list" style="display:none;">
+    <div class="toolbar">
+      <button class="shuffle-btn" onclick="shuffleVerbs()">Shuffle</button>
+      <button class="filter-btn" id="filter-btn" onclick="toggleFilter()">Show All</button>
+      <button class="filter-btn" id="hide-mastered-btn" onclick="toggleHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearVerbMarks()">Clear ★/✓</button>
     </div>
+    <div class="card-counter" id="verb-counter"></div>
+    <div id="verb-list"></div>
   </div>
 </div>
 
@@ -302,6 +314,9 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
         <div class="fc-reading" id="doc-reading">よみ</div>
       </div>
       <div class="fc-hint" id="doc-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-audio-row">
+      <button class="play-btn-sm" onclick="docPlayAudio()">▶</button>
     </div>
     <div class="fc-nav">
       <button onclick="prevDocCard()">← Prev</button>
@@ -583,6 +598,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="data/timeDrills.js"></script>
 <script src="data/timeAudioManifest.js"></script>
 <script src="data/conversationAudioManifest.js"></script>
+<script src="data/sentencesAudioManifest.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/verbs.js"></script>
 <script src="js/flashcards.js"></script>

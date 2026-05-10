@@ -2,7 +2,6 @@
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if (id === 'verbs') renderVerbs();
   if (id === 'flashcards') initFlashcards();
   if (id === 'listening') initListening();
   if (id === 'e2j') initE2JSentences();
@@ -12,6 +11,7 @@ function showScreen(id) {
   if (id === 'conv') initConversations();
   if (id === 'drill') initTimeDrills();
 }
+
 
 // ── UTILITIES ──
 function shuffleArray(arr) {

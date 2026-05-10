@@ -1,13 +1,26 @@
-// ── FLASHCARD MODE ──
+// ── N4 VERBS — Cards + List sub-modes ──
 let fcDeck = [];
 let fcIdx = 0;
 let fcStarredOnly = false;
 let fcHideMastered = false;
+let fcMode = 'cards';
 
 function initFlashcards() {
   fcDeck = [...verbs];
   shuffleArray(fcDeck);
   applyFCFilter();
+  fcSetMode(fcMode);
+}
+
+function fcSetMode(mode) {
+  fcMode = mode;
+  document.querySelectorAll('#flashcards .drill-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.fcmode === mode);
+  });
+  document.querySelectorAll('#flashcards .fc-mode-panel').forEach(p => {
+    p.style.display = (p.dataset.fcmode === mode) ? '' : 'none';
+  });
+  if (mode === 'list') renderVerbs();
 }
 
 function applyFCFilter() {

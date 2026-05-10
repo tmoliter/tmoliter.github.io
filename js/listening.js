@@ -2,6 +2,7 @@
 let shuffledSentences = [];
 let currentSentenceIdx = 0;
 let speechRate = 0.85;
+let listenAudio = null;
 
 function initListening() {
   shuffledSentences = [...sentences];
@@ -19,9 +20,28 @@ function loadSentence() {
     (currentSentenceIdx + 1) + ' / ' + shuffledSentences.length;
 }
 
+function stopListenAudio() {
+  if (listenAudio) { listenAudio.pause(); listenAudio.src = ''; listenAudio = null; }
+  speechSynthesis.cancel();
+}
+
 function playSentence() {
   const s = shuffledSentences[currentSentenceIdx];
-  const u = new SpeechSynthesisUtterance(s.jp);
+  stopListenAudio();
+  const file = (typeof sentencesAudioManifest !== 'undefined') ? sentencesAudioManifest[s.jp] : null;
+  if (file) {
+    const a = new Audio('audio/sentences/' + file);
+    a.playbackRate = speechRate;
+    a.preservesPitch = true;
+    listenAudio = a;
+    a.play().catch(() => playSentenceFallback(s.jp));
+    return;
+  }
+  playSentenceFallback(s.jp);
+}
+
+function playSentenceFallback(jp) {
+  const u = new SpeechSynthesisUtterance(jp);
   u.lang = 'ja-JP';
   u.rate = speechRate;
   const preferred = ['O-Ren','Hattori','Kyoko','Google 日本語'];
@@ -33,7 +53,6 @@ function playSentence() {
   }
   if (!jpVoice) jpVoice = voices.find(v => v.lang.startsWith('ja'));
   if (jpVoice) u.voice = jpVoice;
-  speechSynthesis.cancel();
   speechSynthesis.speak(u);
 }
 
