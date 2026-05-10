@@ -44,5 +44,34 @@ const e2jSentences = [
   [41, "I can eat anything.", "何でも食べられます。"],
   [42, "Please ask me anything.", "何でも聞いてください。"],
   [43, "There's nothing in the fridge.", "冷蔵庫には何もありません。"],
-  [44, "Is there something you want to ask?", "何か聞きたいことがありますか？"]
+  [44, "Is there something you want to ask?", "何か聞きたいことがありますか？"],
+
+  // ── によって (depending on / by means of / by [agent]) ──
+  [45, "The plan changes depending on the weather.", "天気によって、計画が変わります。"],
+  [46, "Customs vary by country.", "習慣は国によって違います。"],
+  [47, "This was made by a famous artist.", "これは有名なアーティストによって作られました。"],
+
+  // ── にとって (for / from the perspective of) ──
+  [48, "For me, family is the most important.", "私にとって、家族が一番大切です。"],
+  [49, "For travelers, this map is very useful.", "旅行者にとって、この地図はとても便利です。"],
+  [50, "For her, this is her first trip to Japan.", "彼女にとって、これは初めての日本旅行です。"],
+
+  // ── として (as [a role / identity]) ──
+  [51, "I work as an engineer.", "エンジニアとして働いています。"],
+  [52, "I came to Japan as a tourist.", "観光客として日本に来ました。"],
+  [53, "As a friend, I want to tell you this.", "友達として、これを言いたいです。"],
+
+  // ── 残りやらないといけないことは〜ことです (what I still have to do is …) ──
+  [54, "What I still have to do is pack my luggage.", "残りやらないといけないことは荷物をまとめることです。"],
+  [55, "What I still have to do is buy souvenirs.", "残りやらないといけないことはお土産を買うことです。"],
+
+  // ── 〜すぎて、〜できない (too X to Y) ──
+  [56, "It's too spicy, I can't eat it.", "辛すぎて、食べられません。"],
+  [57, "It's too expensive, I can't buy it.", "高すぎて、買えません。"],
+  [58, "I'm too tired to think.", "疲れすぎて、考えられません。"],
+
+  // ── できるだけ [adverb] (as [adverb] as possible) ──
+  [59, "Please come as early as possible.", "できるだけ早く来てください。"],
+  [60, "Please speak as slowly as possible.", "できるだけゆっくり話してください。"],
+  [61, "I want to study as much as possible.", "できるだけたくさん勉強したいです。"]
 ];
