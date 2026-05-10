@@ -4,6 +4,7 @@
 // Phase 3: Micro-embedding (short sentences)
 // Phase 4: Time-first listening pressure (TTS-driven)
 // Phase 5: Density bursts (themed rapid-fire stacks)
+// Phase 6: Production (English → Japanese, with politeness register)
 
 let drillCurrentPhase = 1;
 let drillSpeechRate = 1;
@@ -14,6 +15,7 @@ const drillPhaseDescriptions = {
   3: 'Micro-embedding — short sentences where the time expression is still the whole focus. Bridges isolation to real speech.',
   4: 'Time-first listening — TTS plays a sentence with the time expression up front. Tag the type before decoding, then reconstruct.',
   5: 'Density bursts — themed stacks of related forms, rapid-fire. Maximum reps per minute.',
+  6: 'Production — see English, mentally produce the Japanese, then reveal. Politeness register is shown so you can match formal vs. casual.',
 };
 
 const drillCategoryLabels = {
@@ -41,6 +43,7 @@ function drillSetPhase(n) {
   if (n === 3) initDrillP3();
   if (n === 4) initDrillP4();
   if (n === 5) initDrillP5();
+  if (n === 6) initDrillP6();
 }
 
 let drillCurrentAudio = null;
@@ -269,6 +272,10 @@ function loadP3() {
   document.getElementById('p3-en').textContent = item.en;
   document.getElementById('p3-cat').textContent =
     'Time type: ' + drillCategoryLabels[item.category];
+  document.getElementById('p3-tricky').style.display = item.tricky ? '' : 'none';
+  const noteEl = document.getElementById('p3-note');
+  noteEl.textContent = item.note || '';
+  noteEl.style.display = item.note ? '' : 'none';
   document.getElementById('p3-reveal-content').classList.remove('show');
   document.getElementById('p3-reveal-btn').textContent = 'Show sentence & meaning';
   document.getElementById('p3-counter').textContent = (p3Idx + 1) + ' / ' + p3Deck.length;
@@ -435,3 +442,147 @@ function p5PlayAll() {
   step();
 }
 function p5StopPlayAll() { p5PlayAllToken++; drillStopAudio(); }
+
+// ──────────────────────────────────────────────────────────
+// PHASE 6: Production (English → Japanese)
+// Backed by `timeExpressionSentences`. State keys remain `texp_<id>` so
+// existing stars/mastered carry over from the retired Time & Frequency screen.
+// ──────────────────────────────────────────────────────────
+let p6Deck = [];
+let p6Idx = 0;
+let p6StarredOnly = false;
+let p6HideMastered = false;
+
+function p6Key(s) { return 'texp_' + s[0]; }
+
+function initDrillP6() {
+  p6Deck = [...timeExpressionSentences];
+  shuffleArray(p6Deck);
+  applyP6Filter();
+}
+
+function applyP6Filter() {
+  if (p6StarredOnly) {
+    const starred = getStarred();
+    p6Deck = p6Deck.filter(s => starred[p6Key(s)]);
+  }
+  if (p6HideMastered) {
+    const mastered = getMastered();
+    p6Deck = p6Deck.filter(s => !mastered[p6Key(s)]);
+  }
+  p6Idx = 0;
+  if (p6Deck.length > 0) loadP6();
+  else {
+    document.getElementById('p6-english').textContent = 'No sentences match filters';
+    document.getElementById('p6-japanese').classList.remove('show');
+    document.getElementById('p6-hint').style.display = 'none';
+    document.getElementById('p6-counter').textContent = '0 / 0';
+    document.getElementById('p6-register').textContent = '';
+    document.getElementById('p6-register').className = 'texp-register';
+  }
+}
+
+function loadP6() {
+  const s = p6Deck[p6Idx];
+  document.getElementById('p6-english').textContent = s[1];
+  document.getElementById('p6-japanese-text').textContent = s[2];
+  document.getElementById('p6-japanese').classList.remove('show');
+  document.getElementById('p6-hint').style.display = '';
+  document.getElementById('p6-hint').textContent = 'Tap to reveal';
+  document.getElementById('p6-counter').textContent = (p6Idx + 1) + ' / ' + p6Deck.length;
+
+  const reg = s[3] || 'polite';
+  const regEl = document.getElementById('p6-register');
+  regEl.textContent = reg === 'casual' ? '🗣 Casual' : '🎓 Polite';
+  regEl.className = 'texp-register ' + reg;
+
+  const starred = getStarred();
+  const starBtn = document.getElementById('p6-star');
+  const isStarred = starred[p6Key(s)];
+  starBtn.textContent = isStarred ? '★' : '☆';
+  starBtn.classList.toggle('starred', !!isStarred);
+
+  const mastered = getMastered();
+  const masteredBtn = document.getElementById('p6-mastered');
+  const isMastered = mastered[p6Key(s)];
+  masteredBtn.textContent = isMastered ? '✓' : '○';
+  masteredBtn.classList.toggle('mastered', !!isMastered);
+}
+
+function p6Flip() {
+  if (p6Deck.length === 0) return;
+  document.getElementById('p6-japanese').classList.add('show');
+  document.getElementById('p6-hint').style.display = 'none';
+}
+
+function p6Next() {
+  if (p6Deck.length === 0) return;
+  p6Idx = (p6Idx + 1) % p6Deck.length;
+  loadP6();
+}
+
+function p6Prev() {
+  if (p6Deck.length === 0) return;
+  p6Idx = (p6Idx - 1 + p6Deck.length) % p6Deck.length;
+  loadP6();
+}
+
+function p6Shuffle() {
+  shuffleArray(p6Deck);
+  p6Idx = 0;
+  if (p6Deck.length > 0) loadP6();
+}
+
+function p6ToggleStar(e) {
+  e.stopPropagation();
+  if (p6Deck.length === 0) return;
+  const s = p6Deck[p6Idx];
+  const starred = getStarred();
+  const k = p6Key(s);
+  if (starred[k]) delete starred[k]; else starred[k] = 1;
+  setStarred(starred);
+  const starBtn = document.getElementById('p6-star');
+  starBtn.textContent = starred[k] ? '★' : '☆';
+  starBtn.classList.toggle('starred', !!starred[k]);
+  p6Next();
+}
+
+function p6ToggleMastered(e) {
+  e.stopPropagation();
+  if (p6Deck.length === 0) return;
+  const s = p6Deck[p6Idx];
+  const mastered = getMastered();
+  const k = p6Key(s);
+  if (mastered[k]) delete mastered[k]; else mastered[k] = 1;
+  setMastered(mastered);
+  const masteredBtn = document.getElementById('p6-mastered');
+  masteredBtn.textContent = mastered[k] ? '✓' : '○';
+  masteredBtn.classList.toggle('mastered', !!mastered[k]);
+  p6Next();
+}
+
+function p6ToggleFilter() {
+  p6StarredOnly = !p6StarredOnly;
+  document.getElementById('p6-filter-btn').textContent = p6StarredOnly ? '★ Priority Only' : 'Show All';
+  document.getElementById('p6-filter-btn').classList.toggle('active', p6StarredOnly);
+  p6Deck = [...timeExpressionSentences];
+  shuffleArray(p6Deck);
+  applyP6Filter();
+}
+
+function p6ToggleHideMastered() {
+  p6HideMastered = !p6HideMastered;
+  document.getElementById('p6-hide-mastered-btn').textContent = p6HideMastered ? '✓ Hide Mastered' : 'Hide Mastered';
+  document.getElementById('p6-hide-mastered-btn').classList.toggle('active', p6HideMastered);
+  p6Deck = [...timeExpressionSentences];
+  shuffleArray(p6Deck);
+  applyP6Filter();
+}
+
+function p6ClearMarks() {
+  if (!confirm('Clear all starred and mastered production sentences?')) return;
+  clearMarks(k => k.startsWith('texp_'));
+  p6Deck = [...timeExpressionSentences];
+  shuffleArray(p6Deck);
+  applyP6Filter();
+}

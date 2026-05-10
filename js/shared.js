@@ -5,12 +5,10 @@ function showScreen(id) {
   if (id === 'verbs') renderVerbs();
   if (id === 'flashcards') initFlashcards();
   if (id === 'listening') initListening();
-  if (id === 'time') initTime();
   if (id === 'e2j') initE2JSentences();
   if (id === 'e2jn') initE2JNotes();
   if (id === 'adj') initAdjectives();
   if (id === 'doc') initDocVocab();
-  if (id === 'texp') initTimeExpressions();
   if (id === 'conv') initConversations();
   if (id === 'drill') initTimeDrills();
 }

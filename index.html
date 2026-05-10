@@ -127,8 +127,6 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('adj')">Adjective Drill (い / な)</button>
   <button class="menu-btn" onclick="showScreen('doc')">Doc Vocab</button>
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
-  <button class="menu-btn" onclick="showScreen('time')">Time Expressions</button>
-  <button class="menu-btn" onclick="showScreen('texp')">Time & Frequency Sentences</button>
   <button class="menu-btn" onclick="showScreen('drill')">Time Expression Drill Plan</button>
   <button class="menu-btn" onclick="showScreen('conv')">Conversation Practice</button>
 </div>
@@ -176,39 +174,6 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   </div>
 </div>
 
-<!-- TIME DURATIONS -->
-<div id="time" class="screen">
-  <button class="back-btn" onclick="showScreen('home')">← Back</button>
-  <h1>Time Expressions</h1>
-  <div class="listen-card">
-    <div class="listen-counter" id="time-counter"></div>
-    <div id="time-tricky" class="time-tricky" style="display:none;">⚠ tricky reading</div>
-    <button class="play-btn" onclick="playTimePhrase()">▶</button>
-    <div class="speed-controls" id="time-speed-controls">
-      <button onclick="setTimeSpeed(0.85, this)">Slow</button>
-      <button class="active" onclick="setTimeSpeed(1, this)">Normal</button>
-      <button onclick="setTimeSpeed(1.1, this)">Fast</button>
-    </div>
-    <div class="time-reveal-block">
-      <button class="time-reveal-btn" id="time-reveal-jp-btn" onclick="revealTimeJp()">Show Japanese</button>
-      <div class="time-reveal-content" id="time-jp-content">
-        <div class="time-jp-text" id="time-jp"></div>
-        <div class="time-note" id="time-note"></div>
-      </div>
-    </div>
-    <div class="time-reveal-block">
-      <button class="time-reveal-btn" id="time-reveal-en-btn" onclick="revealTimeEn()">Show English</button>
-      <div class="time-reveal-content" id="time-en-content">
-        <div class="time-en-text" id="time-en"></div>
-      </div>
-    </div>
-    <div class="fc-nav" style="margin-top:16px;">
-      <button onclick="prevTimePhrase()">← Prev</button>
-      <button onclick="nextTimePhrase()">Next →</button>
-    </div>
-  </div>
-</div>
-
 <!-- LISTENING -->
 <div id="listening" class="screen">
   <button class="back-btn" onclick="showScreen('home')">← Back</button>
@@ -227,35 +192,6 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <div class="sentence-en" id="sentence-en"></div>
     </div>
     <button class="next-btn" onclick="nextSentence()">Next →</button>
-  </div>
-</div>
-
-<!-- TIME & FREQUENCY SENTENCES -->
-<div id="texp" class="screen">
-  <button class="back-btn" onclick="showScreen('home')">← Back</button>
-  <h1>Time & Frequency Sentences</h1>
-  <div class="fc-container">
-    <div class="fc-toolbar">
-      <button class="shuffle-btn" onclick="shuffleTexp()">Shuffle</button>
-      <button class="filter-btn" id="texp-filter-btn" onclick="toggleTexpFilter()">Show All</button>
-      <button class="filter-btn" id="texp-hide-mastered-btn" onclick="toggleTexpHideMastered()">Hide Mastered</button>
-      <button class="shuffle-btn" onclick="clearTexpMarks()">Clear ★/✓</button>
-    </div>
-    <div class="fc-counter" id="texp-counter"></div>
-    <div class="flashcard" onclick="flipTexpCard()">
-      <button class="fc-star" id="texp-star" onclick="toggleTexpStar(event)">☆</button>
-      <button class="fc-mastered" id="texp-mastered" onclick="toggleTexpMastered(event)">○</button>
-      <div class="texp-register" id="texp-register"></div>
-      <div class="fc-english" id="texp-english">English sentence</div>
-      <div class="fc-japanese" id="texp-japanese">
-        <div class="fc-kanji" id="texp-japanese-text">日本語</div>
-      </div>
-      <div class="fc-hint" id="texp-hint">Tap to reveal</div>
-    </div>
-    <div class="fc-nav">
-      <button onclick="prevTexpCard()">← Prev</button>
-      <button onclick="nextTexpCard()">Next →</button>
-    </div>
   </div>
 </div>
 
@@ -433,6 +369,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
     <button class="drill-tab" data-phase="3" onclick="drillSetPhase(3)">3·Micro</button>
     <button class="drill-tab" data-phase="4" onclick="drillSetPhase(4)">4·Listen</button>
     <button class="drill-tab" data-phase="5" onclick="drillSetPhase(5)">5·Burst</button>
+    <button class="drill-tab" data-phase="6" onclick="drillSetPhase(6)">6·E→J</button>
   </div>
   <div class="drill-phase-desc" id="drill-phase-desc"></div>
 
@@ -528,9 +465,11 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <div class="time-reveal-block">
         <button class="time-reveal-btn" id="p3-reveal-btn" onclick="p3Reveal()">Show sentence & meaning</button>
         <div class="time-reveal-content" id="p3-reveal-content">
+          <div id="p3-tricky" class="time-tricky" style="display:none;">⚠ tricky reading</div>
           <div class="time-jp-text" id="p3-jp"></div>
           <div class="time-en-text" id="p3-en"></div>
           <div class="drill-cat-tag" id="p3-cat"></div>
+          <div class="time-note" id="p3-note" style="margin-top:10px;"></div>
         </div>
       </div>
       <div class="fc-nav" style="margin-top:14px;">
@@ -606,11 +545,35 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       </div>
     </div>
   </div>
+
+  <!-- Phase 6: Production (English → Japanese) -->
+  <div class="drill-panel" data-phase="6" style="display:none;">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="p6Shuffle()">Shuffle</button>
+      <button class="filter-btn" id="p6-filter-btn" onclick="p6ToggleFilter()">Show All</button>
+      <button class="filter-btn" id="p6-hide-mastered-btn" onclick="p6ToggleHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="p6ClearMarks()">Clear ★/✓</button>
+    </div>
+    <div class="fc-counter" id="p6-counter"></div>
+    <div class="flashcard" onclick="p6Flip()">
+      <button class="fc-star" id="p6-star" onclick="p6ToggleStar(event)">☆</button>
+      <button class="fc-mastered" id="p6-mastered" onclick="p6ToggleMastered(event)">○</button>
+      <div class="texp-register" id="p6-register"></div>
+      <div class="fc-english" id="p6-english">English sentence</div>
+      <div class="fc-japanese" id="p6-japanese">
+        <div class="fc-kanji" id="p6-japanese-text">日本語</div>
+      </div>
+      <div class="fc-hint" id="p6-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="p6Prev()">← Prev</button>
+      <button onclick="p6Next()">Next →</button>
+    </div>
+  </div>
 </div>
 
 <script src="data/verbs.js"></script>
 <script src="data/sentences.js"></script>
-<script src="data/time.js"></script>
 <script src="data/e2jSentences.js"></script>
 <script src="data/e2jNotes.js"></script>
 <script src="data/adjectives.js"></script>
@@ -624,12 +587,10 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/verbs.js"></script>
 <script src="js/flashcards.js"></script>
 <script src="js/listening.js"></script>
-<script src="js/time.js"></script>
 <script src="js/e2jSentences.js"></script>
 <script src="js/e2jNotes.js"></script>
 <script src="js/adjectives.js"></script>
 <script src="js/docVocab.js"></script>
-<script src="js/timeExpressions.js"></script>
 <script src="js/conversations.js"></script>
 <script src="js/timeDrills.js"></script>
 <script>
