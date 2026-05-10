@@ -145,4 +145,64 @@ const readingPractice = [
   { id: 105, cat: "medical", jp: "風邪薬", reading: "かぜぐすり", en: "Cold medicine" },
   { id: 106, cat: "medical", jp: "痛み止め", reading: "いたみどめ", en: "Painkiller" },
   { id: 107, cat: "medical", jp: "保険証", reading: "ほけんしょう", en: "Insurance card", note: "If you visit a clinic they'll ask 保険証はありますか? — say no if you're a tourist." },
+
+  // ── Transit · IC cards ──
+  { id: 108, cat: "transit", jp: "ICカード", reading: "アイシーカード", en: "IC card", note: "Tap to ride trains, buses, and pay at convenience stores. Buy at any major station ticket counter." },
+  { id: 109, cat: "transit", jp: "チャージ", reading: "", en: "Charge / top up", note: "Verb: チャージする. Add cash to your IC card at any ticket machine." },
+  { id: 110, cat: "transit", jp: "残高", reading: "ざんだか", en: "Remaining balance", note: "Shown on the gate display when you tap. 残高不足 (ざんだかぶそく) = insufficient balance." },
+  { id: 111, cat: "transit", jp: "SUGOCA", reading: "スゴカ", en: "JR Kyushu's IC card", note: "Sold at JR Kyushu stations including Hakata. Works nationwide on most rail systems." },
+  { id: 112, cat: "transit", jp: "nimoca", reading: "ニモカ", en: "Nishitetsu's IC card", note: "Sold at Nishitetsu stations. Works on Fukuoka subway, Nishitetsu trains/buses, plus nationally." },
+
+  // ── Transit · Tickets ──
+  { id: 113, cat: "transit", jp: "自動券売機", reading: "じどうけんばいき", en: "Automatic ticket vending machine", note: "Most major stations have an English mode — look for the language button top right." },
+  { id: 114, cat: "transit", jp: "乗車券", reading: "じょうしゃけん", en: "Fare ticket", note: "Basic ride ticket. On limited express / shinkansen you also need a 特急券 (limited express ticket)." },
+  { id: 115, cat: "transit", jp: "片道", reading: "かたみち", en: "One-way" },
+  { id: 116, cat: "transit", jp: "往復", reading: "おうふく", en: "Round trip", note: "Often slightly cheaper than two one-ways." },
+  { id: 117, cat: "transit", jp: "指定席", reading: "していせき", en: "Reserved seat", note: "On shinkansen and limited express. Costs extra but guarantees a specific seat." },
+  { id: 118, cat: "transit", jp: "自由席", reading: "じゆうせき", en: "Non-reserved seat", note: "Cheaper, first-come first-served — you might stand on busy trains." },
+  { id: 119, cat: "transit", jp: "一日乗車券", reading: "いちにちじょうしゃけん", en: "One-day pass", note: "Unlimited rides on the issuing line. Worth it for ~3+ trips in a day." },
+
+  // ── Transit · On the train ──
+  { id: 120, cat: "transit", jp: "次は", reading: "つぎは", en: "Next stop is …", note: "Standard announcement: 次は博多です = Next is Hakata." },
+  { id: 121, cat: "transit", jp: "〜行き", reading: "〜ゆき", en: "Bound for …", note: "Read 「ゆき」 in announcements, 「いき」 in writing. 博多行き = bound for Hakata." },
+  { id: 122, cat: "transit", jp: "まもなく", reading: "", en: "Shortly / momentarily", note: "Heard right before arrival: まもなく到着します = arriving shortly." },
+  { id: 123, cat: "transit", jp: "優先席", reading: "ゆうせんせき", en: "Priority seat", note: "For elderly, pregnant, injured, those with small children. Avoid unless the car is empty." },
+  { id: 124, cat: "transit", jp: "上り", reading: "のぼり", en: "Inbound (toward Tokyo)" },
+  { id: 125, cat: "transit", jp: "下り", reading: "くだり", en: "Outbound (away from Tokyo)" },
+
+  // ── Transit · Station operations ──
+  { id: 126, cat: "transit", jp: "ホーム", reading: "", en: "Platform", note: "Loanword from English. Used in announcements; 番線 used on signage." },
+  { id: 127, cat: "transit", jp: "精算機", reading: "せいさんき", en: "Fare-adjustment machine", note: "If you rode past your paid destination, settle the difference here before the gate." },
+  { id: 128, cat: "transit", jp: "精算", reading: "せいさん", en: "Fare adjustment / settling up" },
+  { id: 129, cat: "transit", jp: "コインロッカー", reading: "", en: "Coin lockers", note: "Every major station. ¥300–¥800 depending on size. Pay by coin or IC card." },
+
+  // ── Transit · Bus ──
+  { id: 130, cat: "transit", jp: "整理券", reading: "せいりけん", en: "Numbered fare slip", note: "On most city buses: take from a machine when boarding (back door), hand to the driver with your fare on exit (front door)." },
+  { id: 131, cat: "transit", jp: "運賃", reading: "うんちん", en: "Fare", note: "Display board at the front of the bus shows current fare for each boarding number." },
+
+  // ── Transit · Ferry ──
+  { id: 132, cat: "transit", jp: "フェリー", reading: "", en: "Ferry" },
+  { id: 133, cat: "transit", jp: "高速船", reading: "こうそくせん", en: "High-speed boat", note: "Faster Yakushima option from Kagoshima — ~2 hrs instead of ~4 by ferry." },
+  { id: 134, cat: "transit", jp: "港", reading: "みなと", en: "Port / harbor" },
+  { id: 135, cat: "transit", jp: "鹿児島港", reading: "かごしまこう", en: "Kagoshima Port", note: "Mainland departure point for Yakushima — both ferries and high-speed boats leave from here." },
+  { id: 136, cat: "transit", jp: "宮之浦港", reading: "みやのうらこう", en: "Miyanoura Port", note: "Main port on Yakushima — most arrivals come here." },
+  { id: 137, cat: "transit", jp: "欠航", reading: "けっこう", en: "Cancelled (boat / flight)", note: "Common for Yakushima boats during typhoon season — always check the morning of." },
+  { id: 138, cat: "transit", jp: "運休", reading: "うんきゅう", en: "Service suspended", note: "Used for trains, buses, ferries — anything that's not running today." },
+  { id: 139, cat: "transit", jp: "乗船券", reading: "じょうせんけん", en: "Boat / ferry ticket" },
+
+  // ── Transit · Airport ──
+  { id: 140, cat: "transit", jp: "空港", reading: "くうこう", en: "Airport" },
+  { id: 141, cat: "transit", jp: "福岡空港", reading: "ふくおかくうこう", en: "Fukuoka Airport", note: "Famously close to the city — a 5-minute subway ride to Hakata Station." },
+  { id: 142, cat: "transit", jp: "国際線", reading: "こくさいせん", en: "International (terminal / line)" },
+  { id: 143, cat: "transit", jp: "国内線", reading: "こくないせん", en: "Domestic (terminal / line)" },
+  { id: 144, cat: "transit", jp: "搭乗口", reading: "とうじょうぐち", en: "Boarding gate" },
+  { id: 145, cat: "transit", jp: "搭乗券", reading: "とうじょうけん", en: "Boarding pass" },
+  { id: 146, cat: "transit", jp: "手荷物", reading: "てにもつ", en: "Hand baggage / carry-on" },
+  { id: 147, cat: "transit", jp: "預け荷物", reading: "あずけにもつ", en: "Checked baggage" },
+  { id: 148, cat: "transit", jp: "入国審査", reading: "にゅうこくしんさ", en: "Immigration / passport control", note: "First stop after deplaning on arrival. Have your passport and any required forms ready." },
+  { id: 149, cat: "transit", jp: "税関", reading: "ぜいかん", en: "Customs", note: "After immigration. Declaration form for goods over allowance — most travelers walk through." },
+
+  // ── Transit · Delays & disruptions ──
+  { id: 150, cat: "transit", jp: "遅延", reading: "ちえん", en: "Delay", note: "Posted on station boards: 遅延が発生しています = a delay is occurring." },
+  { id: 151, cat: "transit", jp: "運転見合わせ", reading: "うんてんみあわせ", en: "Operations temporarily suspended", note: "From an incident, weather, etc. Look for 振替輸送 (ふりかえゆそう) — substitute transport on other lines, free with your ticket." },
 ];
