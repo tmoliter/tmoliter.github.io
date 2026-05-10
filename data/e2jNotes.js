@@ -72,4 +72,6 @@ const e2jNotes = [
   [68, "each dog is about 25 kilos", "あたり", "一匹あたり25キロぐらいです", ""],
   [69, "what was that called again (polite)", "でしたっけ", "あれって何というんでしたっけ？", ""],
   [70, "If I mistake anything like manners or whatever, please tell me", "マナー", "マナーとか何でも間違ったら教えてください", ""],
+  [71, "Tomorrow, we’re planning to wander around the city.", "ぶらぶら", "明日は街をぶらぶらする予定です。"],
+  [72, "Tomorrow, we’ll just take our time looking around without any fixed plans.", "見て回る", "明日は特に予定を決めずにゆっくり見て回る。"],
 ];

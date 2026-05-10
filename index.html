@@ -133,6 +133,20 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .rs-list-card .rs-list-en.show { display: block; }
 .rs-list-card .star-btn { top: 8px; right: 8px; }
 .rs-list-card .mastered-btn { top: 8px; right: 40px; }
+
+/* Backup & Restore */
+.backup-blurb { color: #aab; font-size: 0.9rem; line-height: 1.45; margin-bottom: 18px; }
+.backup-sub { color: #aab; font-size: 0.85rem; margin-bottom: 8px; }
+.backup-h2 { font-size: 1rem; color: #7ec8e3; text-transform: uppercase; letter-spacing: 0.08em; margin: 18px 0 8px; }
+.backup-stats { color: #888; font-size: 0.8rem; margin-bottom: 6px; font-family: ui-monospace, monospace; }
+.backup-textarea { width: 100%; min-height: 110px; background: #0a1225; color: #cde; border: 1px solid #334; border-radius: 6px; padding: 10px; font-size: 0.8rem; font-family: ui-monospace, monospace; resize: vertical; box-sizing: border-box; line-height: 1.4; }
+.backup-textarea:focus { outline: none; border-color: #7ec8e3; }
+.backup-btn-row { display: flex; gap: 8px; margin-top: 10px; }
+.backup-btn { flex: 1; margin-bottom: 0; padding: 12px; font-size: 0.95rem; text-align: center; }
+.backup-btn-danger { color: #ff8aa5; border-color: #5a2030; }
+.backup-status { font-size: 0.85rem; margin-top: 10px; min-height: 1.2em; }
+.backup-status.ok { color: #6fcf97; }
+.backup-status.err { color: #ff8aa5; }
 </style>
 </head>
 <body>
@@ -156,6 +170,34 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('drill')">Time Expression Drill Plan</button>
   <button class="menu-btn" onclick="showScreen('conv')">Conversation Practice</button>
+
+  <div class="menu-group-label">Settings</div>
+  <button class="menu-btn" onclick="showScreen('backup')">Backup &amp; Restore</button>
+</div>
+
+<!-- BACKUP & RESTORE -->
+<div id="backup" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Backup &amp; Restore</h1>
+  <p class="backup-blurb">Move your starred, mastered, and conversation answers between devices. Export gives you a JSON blob; paste it into Import on another device.</p>
+
+  <h2 class="backup-h2">Export</h2>
+  <div class="backup-stats" id="backup-stats"></div>
+  <textarea class="backup-textarea" id="backup-export" readonly onclick="this.select()"></textarea>
+  <div class="backup-btn-row">
+    <button class="menu-btn backup-btn" onclick="backupCopy()">Copy</button>
+    <button class="menu-btn backup-btn" onclick="backupDownload()">Download .json</button>
+  </div>
+  <div class="backup-status" id="backup-export-status"></div>
+
+  <h2 class="backup-h2">Import</h2>
+  <p class="backup-sub">Paste exported JSON, then choose merge or replace.</p>
+  <textarea class="backup-textarea" id="backup-import" placeholder="Paste JSON here..."></textarea>
+  <div class="backup-btn-row">
+    <button class="menu-btn backup-btn" onclick="backupImport('merge')">Merge into mine</button>
+    <button class="menu-btn backup-btn backup-btn-danger" onclick="backupImport('replace')">Replace mine</button>
+  </div>
+  <div class="backup-status" id="backup-import-status"></div>
 </div>
 
 <!-- N4 VERBS (Cards + List sub-modes) -->
@@ -730,6 +772,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/conversations.js"></script>
 <script src="js/timeDrills.js"></script>
 <script src="js/roadSigns.js"></script>
+<script src="js/backup.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

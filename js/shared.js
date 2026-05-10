@@ -12,6 +12,7 @@ function showScreen(id) {
   if (id === 'conv') initConversations();
   if (id === 'drill') initTimeDrills();
   if (id === 'roadsigns') initRoadSigns();
+  if (id === 'backup') initBackup();
 }
 
 
