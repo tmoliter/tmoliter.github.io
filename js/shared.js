@@ -8,6 +8,7 @@ function showScreen(id) {
   if (id === 'e2jn') initE2JNotes();
   if (id === 'adj') initAdjectives();
   if (id === 'doc') initDocVocab();
+  if (id === 'reading') initReading();
   if (id === 'conv') initConversations();
   if (id === 'drill') initTimeDrills();
 }

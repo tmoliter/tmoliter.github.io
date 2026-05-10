@@ -70,6 +70,10 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .flashcard .fc-mastered { position: absolute; top: 12px; right: 50px; }
 .fc-hint { color: #556; font-size: 0.85rem; margin-top: 10px; }
 .flashcard .fc-notes { font-size: 0.85rem; color: #888; margin-top: 14px; text-align: left; white-space: pre-wrap; line-height: 1.4; }
+.reading-cat-chip { display: inline-block; background: #0f3460; color: #7ec8e3; padding: 3px 10px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 8px; }
+.reading-jp-text { font-size: 2.2rem; color: #fff; line-height: 1.4; text-align: center; margin: 6px 0; }
+.reading-reading-text { font-size: 1.1rem; color: #7ec8e3; text-align: center; margin-top: 6px; }
+.reading-en-text { font-size: 1rem; color: #ccc; text-align: center; margin-top: 8px; }
 .fc-nav { display: flex; gap: 10px; width: 100%; margin-top: 14px; }
 .fc-nav button { flex: 1; padding: 14px; background: #0f3460; border: 1px solid #446; border-radius: 8px; color: #eee; font-size: 1rem; cursor: pointer; }
 .fc-nav button:active { background: #1a4a7a; }
@@ -127,6 +131,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('flashcards')">N4 Verbs</button>
   <button class="menu-btn" onclick="showScreen('adj')">Adjectives (い / な)</button>
   <button class="menu-btn" onclick="showScreen('doc')">Doc Vocab</button>
+  <button class="menu-btn" onclick="showScreen('reading')">Reading Practice</button>
 
   <div class="menu-group-label">Sentence Practice</div>
   <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
@@ -318,12 +323,40 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       </div>
       <div class="fc-hint" id="doc-hint">Tap to reveal</div>
     </div>
-    <div class="fc-audio-row">
-      <button class="play-btn-sm" onclick="docPlayAudio()">▶</button>
-    </div>
     <div class="fc-nav">
       <button onclick="prevDocCard()">← Prev</button>
       <button onclick="nextDocCard()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- READING PRACTICE -->
+<div id="reading" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Reading Practice</h1>
+  <div class="fc-container">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleReading()">Shuffle</button>
+      <button class="filter-btn" id="reading-filter-btn" onclick="toggleReadingFilter()">Show All</button>
+      <button class="filter-btn" id="reading-hide-mastered-btn" onclick="toggleReadingHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearReadingMarks()">Clear ★/✓</button>
+    </div>
+    <div class="fc-counter" id="reading-counter"></div>
+    <div class="flashcard" onclick="flipReading()">
+      <button class="fc-star" id="reading-star" onclick="toggleReadingStar(event)">☆</button>
+      <button class="fc-mastered" id="reading-mastered" onclick="toggleReadingMastered(event)">○</button>
+      <div class="reading-cat-chip" id="reading-cat"></div>
+      <div class="reading-jp-text" id="reading-jp">日本語</div>
+      <div class="fc-japanese" id="reading-reveal">
+        <div class="reading-reading-text" id="reading-reading"></div>
+        <div class="reading-en-text" id="reading-en"></div>
+        <div class="fc-notes" id="reading-note"></div>
+      </div>
+      <div class="fc-hint" id="reading-hint">Tap to reveal</div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="prevReading()">← Prev</button>
+      <button onclick="nextReading()">Next →</button>
     </div>
   </div>
 </div>
@@ -600,6 +633,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="data/sentences.js"></script>
 <script src="data/e2jSentences.js"></script>
 <script src="data/e2jNotes.js"></script>
+<script src="data/readingPractice.js"></script>
 <script src="data/adjectives.js"></script>
 <script src="data/docVocab.js"></script>
 <script src="data/timeExpressions.js"></script>
@@ -614,6 +648,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/listening.js"></script>
 <script src="js/e2jSentences.js"></script>
 <script src="js/e2jNotes.js"></script>
+<script src="js/readingPractice.js"></script>
 <script src="js/adjectives.js"></script>
 <script src="js/docVocab.js"></script>
 <script src="js/conversations.js"></script>
