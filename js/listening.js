@@ -71,5 +71,10 @@ function nextSentence() {
   loadSentence();
 }
 
+function prevSentence() {
+  currentSentenceIdx = (currentSentenceIdx - 1 + shuffledSentences.length) % shuffledSentences.length;
+  loadSentence();
+}
+
 // Pre-load voices (needed on some browsers)
 speechSynthesis.onvoiceschanged = () => {};

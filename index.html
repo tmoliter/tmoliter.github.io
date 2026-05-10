@@ -203,7 +203,10 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <div class="sentence-jp" id="sentence-jp"></div>
       <div class="sentence-en" id="sentence-en"></div>
     </div>
-    <button class="next-btn" onclick="nextSentence()">Next →</button>
+    <div class="fc-nav" style="margin-top:14px;">
+      <button onclick="prevSentence()">← Prev</button>
+      <button onclick="nextSentence()">Next →</button>
+    </div>
   </div>
 </div>
 
@@ -459,7 +462,10 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
         <div class="fb-row"><strong>Category:</strong> <span id="p2-fb-cat"></span></div>
         <div class="time-note" id="p2-fb-note" style="margin-top:8px;"></div>
       </div>
-      <button class="next-btn" onclick="p2Next()">Next →</button>
+      <div class="fc-nav" style="margin-top:14px;">
+        <button onclick="p2Prev()">← Prev</button>
+        <button onclick="p2Next()">Next →</button>
+      </div>
     </div>
   </div>
 
@@ -526,7 +532,10 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
           </div>
         </div>
       </div>
-      <button class="next-btn" onclick="p4Next()">Next →</button>
+      <div class="fc-nav" style="margin-top:14px;">
+        <button onclick="p4Prev()">← Prev</button>
+        <button onclick="p4Next()">Next →</button>
+      </div>
     </div>
   </div>
 

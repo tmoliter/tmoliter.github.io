@@ -243,6 +243,10 @@ function p2Next() {
   p2Idx = (p2Idx + 1) % p2Deck.length;
   loadP2();
 }
+function p2Prev() {
+  p2Idx = (p2Idx - 1 + p2Deck.length) % p2Deck.length;
+  loadP2();
+}
 function p2PlayAudio() { if (p2Deck.length) drillSpeak(p2Deck[p2Idx].jp); }
 function p2Shuffle() { shuffleArray(p2Deck); p2Idx = 0; loadP2(); }
 function p2ResetScore() {
@@ -354,6 +358,7 @@ function p4Reveal() {
 }
 
 function p4Next() { p4Idx = (p4Idx + 1) % p4Deck.length; loadP4(true); }
+function p4Prev() { p4Idx = (p4Idx - 1 + p4Deck.length) % p4Deck.length; loadP4(true); }
 function p4Shuffle() { shuffleArray(p4Deck); p4Idx = 0; loadP4(true); }
 
 // ──────────────────────────────────────────────────────────
