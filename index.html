@@ -119,6 +119,20 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .drill-time-exp { display: inline-block; background: #0f3460; color: #7ec8e3; padding: 4px 10px; border-radius: 4px; font-size: 1rem; margin-bottom: 8px; }
 .drill-cat-tag { display: inline-block; background: #2a2000; color: #f5c518; border: 1px solid #5a4500; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-left: 6px; }
 .drill-select { width: 100%; padding: 10px; background: #16213e; border: 1px solid #334; border-radius: 6px; color: #cde; font-size: 0.95rem; margin-bottom: 10px; }
+
+/* Road Signs */
+.rs-img-wrap { display: flex; justify-content: center; padding: 18px; background: #fff; border-radius: 8px; margin: 6px 0 14px; }
+.rs-img { max-width: 200px; max-height: 200px; object-fit: contain; }
+.rs-code { color: #7ec8e3; font-size: 0.8rem; text-align: center; margin-bottom: 4px; font-family: ui-monospace, monospace; }
+.rs-list-card { background: #16213e; border: 1px solid #334; border-radius: 8px; padding: 12px 12px 12px 96px; margin-bottom: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; min-height: 96px; }
+.rs-list-card .rs-list-img-wrap { position: absolute; left: 8px; top: 8px; width: 80px; height: 80px; background: #fff; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 4px; }
+.rs-list-card .rs-list-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.rs-list-card .rs-list-code { color: #7ec8e3; font-size: 0.75rem; font-family: ui-monospace, monospace; margin-bottom: 4px; }
+.rs-list-card .rs-list-jp { font-size: 1.1rem; color: #fff; line-height: 1.3; }
+.rs-list-card .rs-list-en { font-size: 0.95rem; color: #ccc; margin-top: 4px; display: none; }
+.rs-list-card .rs-list-en.show { display: block; }
+.rs-list-card .star-btn { top: 8px; right: 8px; }
+.rs-list-card .mastered-btn { top: 8px; right: 40px; }
 </style>
 </head>
 <body>
@@ -132,6 +146,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('adj')">Adjectives (い / な)</button>
   <button class="menu-btn" onclick="showScreen('doc')">Doc Vocab</button>
   <button class="menu-btn" onclick="showScreen('reading')">Reading Practice</button>
+  <button class="menu-btn" onclick="showScreen('roadsigns')">Road Signs</button>
 
   <div class="menu-group-label">Sentence Practice</div>
   <button class="menu-btn" onclick="showScreen('e2j')">English → Japanese Sentences</button>
@@ -358,6 +373,66 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
       <button onclick="prevReading()">← Prev</button>
       <button onclick="nextReading()">Next →</button>
     </div>
+  </div>
+</div>
+
+<!-- ROAD SIGNS -->
+<div id="roadsigns" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Road Signs</h1>
+
+  <div class="drill-tabs">
+    <button class="drill-tab active" data-rsmode="cards" onclick="rsSetMode('cards')">Cards</button>
+    <button class="drill-tab" data-rsmode="list" onclick="rsSetMode('list')">List</button>
+  </div>
+
+  <div class="drill-tabs">
+    <button class="drill-tab rs-cat-btn active" data-cat="all" onclick="setRSCat('all')">All</button>
+    <button class="drill-tab rs-cat-btn" data-cat="sign" onclick="setRSCat('sign')">Signs</button>
+    <button class="drill-tab rs-cat-btn" data-cat="marking" onclick="setRSCat('marking')">Markings</button>
+  </div>
+
+  <div class="rs-mode-panel" data-rsmode="cards">
+    <div class="fc-toolbar">
+      <button class="shuffle-btn" onclick="shuffleRS()">Shuffle</button>
+      <button class="filter-btn rs-filter-btn" onclick="toggleRSFilter()">Show All</button>
+      <button class="filter-btn rs-hide-mastered-btn" onclick="toggleRSHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearRSMarks()">Clear ★/✓</button>
+    </div>
+    <div class="fc-counter" id="rs-counter"></div>
+    <div class="listen-card" style="position: relative;">
+      <button class="fc-star" id="rs-star" onclick="toggleRSStar(event)" style="position: absolute; top: 12px; right: 12px;">☆</button>
+      <button class="fc-mastered" id="rs-mastered" onclick="toggleRSMastered(event)" style="position: absolute; top: 12px; right: 50px;">○</button>
+      <div class="rs-code" id="rs-code"></div>
+      <div class="rs-img-wrap"><img id="rs-img" class="rs-img" alt=""></div>
+      <div class="time-reveal-block">
+        <button class="time-reveal-btn" onclick="revealRSEn()">Show English</button>
+        <div class="time-reveal-content" id="rs-en-content">
+          <div class="time-en-text" id="rs-en"></div>
+        </div>
+      </div>
+      <div class="time-reveal-block">
+        <button class="time-reveal-btn" onclick="revealRSJp()">Show Japanese</button>
+        <div class="time-reveal-content" id="rs-jp-content">
+          <div class="time-jp-text" id="rs-jp"></div>
+        </div>
+      </div>
+      <div class="fc-nav" style="margin-top:16px;">
+        <button onclick="prevRSCard()">← Prev</button>
+        <button onclick="nextRSCard()">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="rs-mode-panel" data-rsmode="list" style="display:none;">
+    <div class="toolbar">
+      <button class="shuffle-btn" onclick="shuffleRSList()">Shuffle</button>
+      <button class="filter-btn rs-filter-btn" onclick="toggleRSFilter()">Show All</button>
+      <button class="filter-btn rs-hide-mastered-btn" onclick="toggleRSHideMastered()">Hide Mastered</button>
+      <button class="shuffle-btn" onclick="clearRSMarks()">Clear ★/✓</button>
+    </div>
+    <div class="card-counter" id="rs-list-counter"></div>
+    <div id="rs-list"></div>
   </div>
 </div>
 
@@ -639,6 +714,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="data/timeExpressions.js"></script>
 <script src="data/conversations.js"></script>
 <script src="data/timeDrills.js"></script>
+<script src="data/roadSigns.js"></script>
 <script src="data/timeAudioManifest.js"></script>
 <script src="data/conversationAudioManifest.js"></script>
 <script src="data/sentencesAudioManifest.js"></script>
@@ -653,6 +729,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/docVocab.js"></script>
 <script src="js/conversations.js"></script>
 <script src="js/timeDrills.js"></script>
+<script src="js/roadSigns.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

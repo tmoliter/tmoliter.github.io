@@ -20,8 +20,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SW_FILE = ROOT / "service-worker.js"
 
 ROOT_FILES = ["index.html", "manifest.webmanifest", "icon.svg"]
-ASSET_DIRS = ["js", "data", "audio"]
-ASSET_EXTS = {".html", ".js", ".mp3", ".webmanifest", ".json", ".svg"}
+ASSET_DIRS = ["js", "data", "audio", "images"]
+ASSET_EXTS = {".html", ".js", ".mp3", ".webmanifest", ".json", ".svg", ".png", ".jpg", ".jpeg"}
 
 
 def collect():

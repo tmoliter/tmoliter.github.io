@@ -11,6 +11,7 @@ function showScreen(id) {
   if (id === 'reading') initReading();
   if (id === 'conv') initConversations();
   if (id === 'drill') initTimeDrills();
+  if (id === 'roadsigns') initRoadSigns();
 }
 
 
