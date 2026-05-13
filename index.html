@@ -134,6 +134,19 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 .rs-list-card .star-btn { top: 8px; right: 8px; }
 .rs-list-card .mastered-btn { top: 8px; right: 40px; }
 
+/* Yen Prices */
+.price-streak-row { text-align: center; color: #aab; font-size: 0.95rem; margin-bottom: 12px; }
+.price-streak { font-weight: 600; font-size: 1.1rem; color: #cde; margin-left: 4px; }
+.price-streak.streak-pos { color: #6fcf97; }
+.price-streak.streak-neg { color: #ff8aa5; }
+.price-rate-note { text-align: center; color: #667; font-size: 0.75rem; margin-top: 10px; }
+.price-grade-row { display: flex; gap: 12px; margin-top: 16px; }
+.price-grade-btn { flex: 1; padding: 16px; border-radius: 8px; font-size: 1.6rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.price-correct { background: #0d3b2e; border: 1px solid #2d7a5a; color: #6fcf97; }
+.price-correct:active { background: #155547; }
+.price-wrong { background: #3d1525; border: 1px solid #8a3050; color: #ff8aa5; }
+.price-wrong:active { background: #571a35; }
+
 /* Backup & Restore */
 .backup-blurb { color: #aab; font-size: 0.9rem; line-height: 1.45; margin-bottom: 18px; }
 .backup-sub { color: #aab; font-size: 0.85rem; margin-bottom: 8px; }
@@ -170,6 +183,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   <button class="menu-btn" onclick="showScreen('listening')">Listening Practice</button>
   <button class="menu-btn" onclick="showScreen('drill')">Time Expression Drill Plan</button>
   <button class="menu-btn" onclick="showScreen('conv')">Conversation Practice</button>
+  <button class="menu-btn" onclick="showScreen('prices')">Yen Prices</button>
 
   <div class="menu-group-label">Settings</div>
   <button class="menu-btn" onclick="showScreen('backup')">Backup &amp; Restore</button>
@@ -746,6 +760,38 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
   </div>
 </div>
 
+<!-- YEN PRICES -->
+<div id="prices" class="screen">
+  <button class="back-btn" onclick="showScreen('home')">← Back</button>
+  <h1>Yen Prices</h1>
+  <div class="listen-card">
+    <div class="price-streak-row">Streak:<span id="price-streak" class="price-streak">0</span></div>
+    <button class="play-btn" onclick="playPrice()">▶</button>
+    <div class="speed-controls">
+      <button onclick="setPriceSpeed(0.85, this)">Slow</button>
+      <button class="active" onclick="setPriceSpeed(1, this)">Normal</button>
+      <button onclick="setPriceSpeed(1.1, this)">Fast</button>
+    </div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" onclick="revealPriceNum()">Show number</button>
+      <div class="time-reveal-content" id="price-num-content">
+        <div class="time-jp-text" id="price-num"></div>
+      </div>
+    </div>
+    <div class="time-reveal-block">
+      <button class="time-reveal-btn" onclick="revealPriceUsd()">Show USD</button>
+      <div class="time-reveal-content" id="price-usd-content">
+        <div class="time-en-text" id="price-usd"></div>
+      </div>
+    </div>
+    <div class="price-grade-row">
+      <button class="price-grade-btn price-correct" onclick="gradePrice(true)">✓</button>
+      <button class="price-grade-btn price-wrong" onclick="gradePrice(false)">✗</button>
+    </div>
+    <div class="price-rate-note" id="price-rate-note"></div>
+  </div>
+</div>
+
 <script src="data/verbs.js"></script>
 <script src="data/sentences.js"></script>
 <script src="data/e2jSentences.js"></script>
@@ -772,6 +818,7 @@ h1 { font-size: 1.3rem; margin-bottom: 16px; }
 <script src="js/conversations.js"></script>
 <script src="js/timeDrills.js"></script>
 <script src="js/roadSigns.js"></script>
+<script src="js/prices.js"></script>
 <script src="js/backup.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
